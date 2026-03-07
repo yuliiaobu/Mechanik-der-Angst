@@ -1,0 +1,1865 @@
+body {
+    /* Заборона виділення тексту */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none;     /* IE 10+ */
+    user-select: none;         /* Стандартний синтаксис */
+    background-color: #000000;
+    margin: 0;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    font-family: DIN2014-ExtraBold, 'din-2014', 'DIN 2014', sans-serif; 
+    cursor: pointer; /* Підказує юзеру, що можна клікати */
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 0 5%;
+    text-align: center;
+    opacity: 0; 
+    transition: opacity 0.5s ease;
+    z-index: 10; 
+}
+
+.text-container.visible {
+    opacity: 1; 
+}
+
+/* Все інше залишається без змін! */
+
+.french-text {
+    color: #ffffff;
+    font-size: 60px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    white-space: pre-wrap;
+}
+
+.german-text {
+    color: #bfbfbf;
+    font-size: 48px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+    white-space: pre-wrap; 
+}
+
+/* Кожна окрема літера центрального тексту */
+.char { opacity: 0; }
+.char.visible { opacity: 1; }
+
+@media (max-width: 1200px) {
+    .french-text { font-size: 5vw; }
+    .german-text { font-size: 3.5vw; }
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ 2 (ФОНОВІ СЛОВА) --- */
+#background-words {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Щоб не блокували кліки по екрану */
+    z-index: 1;
+}
+
+
+.bg-word {
+    position: absolute;
+    opacity: 0; /* Спочатку приховані */
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    transition: opacity 0.8s ease; 
+}
+
+/* Клас, що різко показує слово (без анімації) */
+.bg-word.revealed {
+    opacity: 1;
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДІВ 6-7 (PEUR / ANGST) --- */
+#slide-6-7 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+}
+
+#peur-text {
+    position: absolute;
+    color: #ff0000; /* Яскраво червоний, як у SVG */
+    font-size: 18.5vw; /* Збережено пропорцію 354px */
+    left: 27.8%;
+    top: 58.5%;
+    transform: translateY(-80%); /* Коригування базової лінії шрифту */
+    margin: 0;
+    opacity: 0; /* Спочатку сховано */
+}
+
+#peur-text.revealed {
+    opacity: 1; /* З'являється миттєво, різко */
+}
+
+.angst-word {
+    position: absolute;
+    color: #bf3030; /* Темніший червоний */
+    -webkit-text-stroke: 2px #000000; /* Чорна обводка */
+    margin: 0;
+    opacity: 0;
+    line-height: 1;
+}
+
+.angst-word.revealed {
+    opacity: 1; /* Жодних плавних анімацій — чистий страх */
+}
+
+/* Клас для хаотичних слів, які будуть генеруватися JS */
+.random-angst {
+    position: absolute;
+    color: #bf3030;
+    -webkit-text-stroke: 2px #000000;
+    margin: 0;
+    line-height: 1;
+    z-index: 25;
+    /* Без opacity, вони з'являються миттєво при створенні */
+}
+
+/* Фінальна червона заливка */
+#red-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #bf3030; /* Твій фірмовий червоний */
+    z-index: 100; /* Перекриває абсолютно все */
+    opacity: 0; /* Схований до фіналу */
+    pointer-events: none;
+    transition: opacity 0.5s ease-in; /* Плавне, але швидке затоплення кольором */
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ 8 (КАРТА) --- */
+#slide-8 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #afafaf;
+    z-index: 110;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease-in-out;
+    
+    /* Ідеальне центрування по обох осях */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#slide-8.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Цей блок тепер НАМЕРТВО прив'язаний до пропорцій картинки */
+#map-wrapper {
+    position: relative;
+    aspect-ratio: 16 / 9; /* Завжди зберігає пропорції 16:9 */
+    max-width: 100vw;     /* Не вилазить за ширину екрана */
+    max-height: 100vh;    /* Не вилазить за висоту екрана */
+    margin: auto;         /* Центрується */
+}
+
+/* Сама картинка */
+#map-image-element {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+    opacity: 0;
+    transition: opacity 2.5s ease-in-out;
+}
+
+#map-image-element.revealed {
+    opacity: 1;
+}
+
+/* Чекпоінти */
+.map-checkpoint {
+    position: absolute;
+    width: 24px; 
+    height: 24px;
+    background-color: #bf3030;
+    border: 3px solid #000000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 1s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 120;
+}
+
+.map-checkpoint.revealed {
+    opacity: 1;
+}
+
+.map-checkpoint:hover {
+    transform: translate(-50%, -50%) scale(1.5);
+    box-shadow: 0 0 15px rgba(191, 48, 48, 0.8);
+}
+
+/* Адаптивні класи спеціально для Хмари слів (Слайд 2) */
+.cloud-fr {
+    color: #ffffff;
+    font-size: clamp(16px, 2.5vw, 60px); /* Адаптивний розмір */
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.cloud-de {
+    color: #bfbfbf;
+    font-size: clamp(12px, 1.8vw, 48px); /* Адаптивний розмір */
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ 9 (Ewiger Winter) --- */
+#slide-9 {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf; /* Твій сірий фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 150;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-9.visible { opacity: 1; pointer-events: auto; }
+
+#winter-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 16 / 9;
+    container-type: size;
+}
+
+/* Контейнер для картинки справа */
+#winter-visual-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70%; /* Займає праву частину */
+    height: 100%;
+    overflow: hidden;
+}
+
+.winter-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Зберігає форму острова */
+    object-position: right center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.winter-image.revealed { opacity: 1; }
+
+.winter-title-container {
+    position: absolute;
+    top: 15%;      
+    left: 8%;     
+    width: 30%;  
+    z-index: 10;
+}
+
+.winter-desc-container {
+    position: absolute;
+    top: 20%;     
+    left: 8%;     
+    width: 30%;    
+    z-index: 10;
+    text-align: left;
+}
+
+.winter-title {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 4cqw; 
+    color: #000;
+    margin: 0;     
+    line-height: 0.8;
+}
+
+.winter-desc {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.3cqw; 
+    color: #000;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ 10 (Ewiger Herbst) --- */
+#slide-10 {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 150;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-10.visible { opacity: 1; pointer-events: auto; }
+
+/* ВІДНОВЛЕНИЙ КЛАС: тримає пропорції 16:9 */
+#autumn-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 16 / 9;
+    container-type: size;
+}
+
+/* --- Контейнер і картинка для Осені --- */
+#autumn-visual-container {
+    position: absolute;
+    top: 0;
+    right: 0;      /* Притискаємо до правого краю */
+    width: 60%;    /* Зменшуємо до 60%, щоб зліва був текст */
+    height: 100%;
+    overflow: hidden;
+}
+
+.autumn-island-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    object-position: center; 
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.autumn-island-img.revealed { 
+    opacity: 1; 
+}
+
+/* --- Контейнер і картинка для Напівавтономної Зони --- */
+#autonom-visual-container {
+    position: absolute;
+    top: 0;
+    right: 0;      /* Притискаємо до правого краю */
+    width: 60%;    /* Займає лише 60% екрана */
+    height: 100%;
+    overflow: hidden;
+}
+
+.autonom-island-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    object-position: center; 
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.autonom-island-img.revealed { opacity: 1; }
+
+/* --- Точки всередині Напівавтономної Зони --- */
+.autonom-checkpoint-group {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 20;
+}
+
+.autonom-checkpoint-group.revealed {
+    opacity: 1;
+}
+
+.autonom-checkpoint {
+    width: 20px;
+    height: 20px;
+    background-color: #bf3030;
+    border: 2px solid #000;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.autonom-checkpoint:hover {
+    transform: scale(1.5);
+    box-shadow: 0 0 10px rgba(191, 48, 48, 0.8);
+}
+
+.autonom-label {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.1cqw;
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding: 2px 8px;
+    border-radius: 4px;
+    pointer-events: none; 
+    white-space: nowrap;
+}
+
+.autumn-title-container { position: absolute; top: 15%; left: 8%; width: 32%; z-index: 10; }
+.autumn-desc-container { position: absolute; top: 20%; left: 8%; width: 32%; z-index: 10; text-align: left; }
+
+.autumn-title {
+    font-family: 'din-2014', sans-serif; font-weight: 800; font-size: 4cqw; color: #000;
+    margin: 0; line-height: 0.8;
+}
+.autumn-desc {
+    font-family: 'din-2014', sans-serif; font-weight: 700; font-size: 1.3cqw; color: #000;
+    line-height: 1.3; margin: 0;
+}
+
+/* --- Точки всередині Осені --- */
+.autumn-checkpoint-group {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 20;
+}
+
+.autumn-checkpoint-group.revealed { opacity: 1; }
+
+.autumn-checkpoint {
+    width: 20px;
+    height: 20px;
+    background-color: #bf3030;
+    border: 2px solid #000;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.autumn-checkpoint:hover {
+    transform: scale(1.5);
+    box-shadow: 0 0 10px rgba(191, 48, 48, 0.8);
+}
+
+.autumn-label {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.1cqw;
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding: 2px 8px;
+    border-radius: 4px;
+    pointer-events: none; 
+    white-space: nowrap;
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ 11 (Ewiger Sommer) --- */
+#slide-11 {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 150;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-11.visible { opacity: 1; pointer-events: auto; }
+
+#summer-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 16 / 9;
+    container-type: size;
+}
+
+/* --- Контейнер і картинка для Літа --- */
+#summer-visual-container {
+    position: absolute;
+    top: 0;
+    right: 0;      /* Притискаємо до правого краю */
+    width: 60%;    /* Займає лише 60% екрана, звільняючи ліву частину для тексту */
+    height: 100%;
+    overflow: hidden;
+}
+
+.summer-island-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    object-position: center; 
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.summer-island-img.revealed { opacity: 1; }
+
+/* --- Точки всередині Літа --- */
+.summer-checkpoint-group {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 20;
+}
+
+.summer-checkpoint-group.revealed {
+    opacity: 1;
+}
+
+.summer-checkpoint {
+    width: 20px;
+    height: 20px;
+    background-color: #bf3030;
+    border: 2px solid #000;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summer-checkpoint:hover {
+    transform: scale(1.5);
+    box-shadow: 0 0 10px rgba(191, 48, 48, 0.8);
+}
+
+.summer-label {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.1cqw;
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding: 2px 8px;
+    border-radius: 4px;
+    pointer-events: none; 
+    white-space: nowrap;
+}
+
+.summer-island-img.revealed { opacity: 1; }
+
+.summer-title-container { position: absolute; top: 15%; left: 8%; width: 32%; z-index: 10; }
+.summer-desc-container { position: absolute; top: 20%; left: 8%; width: 32%; z-index: 10; text-align: left; }
+
+.summer-title {
+    font-family: 'din-2014', sans-serif; font-weight: 800; font-size: 4cqw; color: #000;
+    margin: 0; line-height: 0.8;
+}
+.summer-desc {
+    font-family: 'din-2014', sans-serif; font-weight: 700; font-size: 1.3cqw; color: #000;
+    line-height: 1.3; margin: 0;
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ 12 (Ewiger Frühling) --- */
+#slide-12 {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 150;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-12.visible { opacity: 1; pointer-events: auto; }
+
+#spring-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 16 / 9;
+    container-type: size;
+}
+
+/* --- Контейнер і картинка для Весни --- */
+#spring-visual-container {
+    position: absolute;
+    top: 0;
+    right: 0;      /* Притискаємо до правого краю */
+    width: 60%;    /* Займає лише 60% екрана */
+    height: 100%;
+    overflow: hidden;
+}
+
+.spring-island-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    object-position: center; 
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.spring-island-img.revealed { opacity: 1; }
+
+/* --- Точки всередині Весни --- */
+.spring-checkpoint-group {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 20;
+}
+
+.spring-checkpoint-group.revealed {
+    opacity: 1;
+}
+
+.spring-checkpoint {
+    width: 20px;
+    height: 20px;
+    background-color: #bf3030;
+    border: 2px solid #000;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.spring-checkpoint:hover {
+    transform: scale(1.5);
+    box-shadow: 0 0 10px rgba(191, 48, 48, 0.8);
+}
+
+.spring-label {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.1cqw;
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding: 2px 8px;
+    border-radius: 4px;
+    pointer-events: none; 
+    white-space: nowrap;
+}
+
+.spring-title-container { position: absolute; top: 15%; left: 8%; width: 32%; z-index: 10; }
+.spring-desc-container { position: absolute; top: 20%; left: 8%; width: 32%; z-index: 10; text-align: left; }
+
+.spring-title {
+    font-family: 'din-2014', sans-serif; font-weight: 800; font-size: 4cqw; color: #000;
+    margin: 0; line-height: 0.8;
+}
+.spring-desc {
+    font-family: 'din-2014', sans-serif; font-weight: 700; font-size: 1.3cqw; color: #000;
+    line-height: 1.3; margin: 0;
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ 13 (Halbautonome Zone) --- */
+#slide-13 {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 150;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-13.visible { opacity: 1; pointer-events: auto; }
+
+#autonom-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 16 / 9;
+    container-type: size;
+}
+
+.autonom-island-img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 65%; /* Карта справа */
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.autonom-island-img.revealed { opacity: 1; }
+
+.autonom-title-container { position: absolute; top: 15%; left: 8%; width: 100%; z-index: 10; }
+.autonom-desc-container { position: absolute; top: 20%; left: 8%; width: 100%; z-index: 10; text-align: left; }
+
+.autonom-title {
+    font-family: 'din-2014', sans-serif; font-weight: 800; font-size: 4cqw; color: #000;
+    margin: 0; line-height: 0.8;
+}
+.autonom-desc {
+    font-family: 'din-2014', sans-serif; font-weight: 700; font-size: 1.3cqw; color: #000;
+    line-height: 1.3; margin: 0;
+}
+
+/* --- ТОЧКИ ВСЕРЕДИНІ РЕГІОНУ (Ewiger Winter) --- */
+.winter-checkpoint-group {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 20;
+}
+
+.winter-checkpoint-group.revealed {
+    opacity: 1;
+}
+
+.winter-checkpoint {
+    width: 20px;
+    height: 20px;
+    background-color: #bf3030;
+    border: 2px solid #000;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.winter-checkpoint:hover {
+    transform: scale(1.5);
+    box-shadow: 0 0 10px rgba(191, 48, 48, 0.8);
+}
+
+.winter-label {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.1cqw;
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer; /* ТЕПЕР ТЕКСТ ТЕЖ КЛІКАБЕЛЬНИЙ! */
+    white-space: nowrap;
+    transition: transform 0.2s ease;
+}
+
+/* Додамо невеличкий ефект, щоб при наведенні на текст крапочка і текст реагували разом */
+.winter-checkpoint-group:hover .winter-label {
+    transform: scale(1.1);
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ 14 (Amygdala) --- */
+#slide-14 {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200; /* Поверх карти */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-14.visible { opacity: 1; pointer-events: auto; }
+
+#amygdala-wrapper {
+    position: relative;
+    width: 100%;
+    /* Ця формула гарантує, що пропорція 16:9 НІКОЛИ не порушиться: */
+    max-width: min(1920px, calc(100vh * 16 / 9)); 
+    max-height: 100vh;
+    aspect-ratio: 16 / 9;
+    margin: auto;
+    container-type: size;
+}
+
+/* Картинка на весь екран */
+.amygdala-bg-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.amygdala-bg-img.revealed { opacity: 1; }
+
+/* Прозорі обгортки для скрипту */
+#fears-text-content, #amygdala-text-content {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
+}
+
+#fears-text-content {
+    position: absolute;
+    top: 6%;
+    left: 5%;
+    width: 45%;
+    height: 85%; /* Обмежуємо висоту, щоб не вилізло за екран */
+    display: flex;
+    flex-direction: column;
+    gap: 1cqw; /* Фіксований відступ між блоками */
+    z-index: 10;
+    pointer-events: none;
+}
+
+.fears-main-title {
+    font-family: 'din-2014', sans-serif; font-weight: 800; font-size: 3.5cqw; color: #000;
+    margin: 0; line-height: 0.8;
+}
+.fears-list {
+    font-family: 'din-2014', sans-serif; font-weight: 700; font-size: 1.1cqw; color: #000;
+    line-height: 1.3; margin: 0; white-space: pre-wrap; 
+}
+
+/* --- КООРДИНАТИ ДЛЯ АМИГДАЛИ (СПРАВА) --- */
+.amygdala-title-container { 
+    position: absolute; 
+    top: 46%; 
+    left: 52%; 
+    width: 30%; 
+    z-index: 10; 
+}
+
+.amygdala-desc-container { 
+    position: absolute; 
+    top: 50%; 
+    left: 52%; 
+    width: 25%; 
+    z-index: 10; 
+    text-align: left; 
+}
+
+.amygdala-main-title {
+    font-family: 'din-2014', sans-serif; font-weight: 800; font-size: 3.5cqw; color: #000;
+    margin: 0; line-height: 0.8;
+}
+.amygdala-desc {
+    font-family: 'din-2014', sans-serif; font-weight: 700; font-size: 1.2cqw; color: #000;
+    line-height: 1.3; margin: 0;
+}
+
+.fears-list {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.1cqw; 
+    color: #000;
+    line-height: 1.3;
+    white-space: pre-wrap; /* Зберігає переноси рядків */
+}
+
+/* --- СТРІЛОЧКА ПЕРЕХОДУ --- */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    right: 2%; /* Розташована з правого краю */
+    transform: translateY(-50%);
+    font-family: 'din-2014', sans-serif;
+    font-size: 3cqw;
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 5cqw;
+    height: 5cqw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0; /* Прихована спочатку */
+    transition: opacity 1s ease, transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    z-index: 130;
+}
+
+.nav-arrow.revealed {
+    opacity: 1;
+}
+
+.nav-arrow:hover {
+    transform: translateY(-50%) scale(1.15);
+    background-color: #bf3030; /* Червоний при наведенні */
+    color: #fff;
+}
+
+/* Модифікатор для стрілочки, що веде вліво */
+.nav-arrow.left-arrow {
+    right: auto; /* Скидаємо прив'язку до правого краю */
+    left: 2%;    /* Прив'язуємо до лівого краю */
+}
+
+/* Стилі для зображень всередині слайдів */
+.slide-image {
+    max-width: 100%; /* Зображення не буде ширшим за свій контейнер */
+    height: auto;    /* Зберігає правильні пропорції (не розтягує картинку) */
+    display: block;  /* Робить зображення блочним елементом, прибираючи зайві відступи знизу */
+    margin: 20px auto 0 auto; /* Додає відступ зверху і центрує картинку по горизонталі */
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ ZENTRUM --- */
+#slide-zentrum {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 180; /* Поверх регіонів, але під Амигдалою */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-zentrum.visible { opacity: 1; pointer-events: auto; }
+
+#zentrum-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 16 / 9;
+    container-type: size;
+}
+
+.zentrum-bg-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; 
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.zentrum-bg-img.revealed { opacity: 1; }
+
+/* Позиція заголовка */
+.zentrum-title-container {
+    position: absolute;
+    top: 7%;
+    left: 31%; 
+    z-index: 10;
+}
+
+/* Позиція опису */
+.zentrum-desc-container {
+    position: absolute;
+    top: 12%;
+    left: 43%; 
+    width: 32%;
+    z-index: 10;
+    text-align: left;
+}
+
+.zentrum-main-title {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 800;
+    font-size: 4cqw; 
+    color: #000;
+    margin: 0;
+    line-height: 1;
+}
+
+.zentrum-desc {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.3cqw; 
+    color: #000;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ DELTA-SRC --- */
+#slide-delta {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 180; /* Той самий рівень, що й Zentrum */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-delta.visible { opacity: 1; pointer-events: auto; }
+
+#delta-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 16 / 9;
+    container-type: size;
+}
+
+.delta-bg-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; 
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.delta-bg-img.revealed { opacity: 1; }
+
+/* Позиція заголовка згідно SVG (x=206, y=131) */
+.delta-title-container {
+    position: absolute;
+    top: 8%;
+    left: 10%; 
+    z-index: 10;
+}
+
+/* Позиція опису згідно SVG (x=198, y=194) */
+.delta-desc-container {
+    position: absolute;
+    top: 13%;
+    left: 10%; 
+    width: 60%; /* Обмежуємо ширину, щоб текст переносився як у SVG */
+    z-index: 10;
+    text-align: left;
+}
+
+.delta-main-title {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 800;
+    font-size: 3.5cqw; 
+    color: #000;
+    margin: 0;
+    line-height: 1;
+}
+
+.delta-desc {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.3cqw; 
+    color: #000;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* --- СТИЛІ ДЛЯ СТРІЛОЧКИ ТА ТРИГЕРУ (АМИГДАЛА) --- */
+
+#amygdala-line-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; /* Щоб лінія не перекривала кліки */
+    z-index: 5;
+}
+
+.amygdala-pointer-line {
+    stroke: #000;
+    stroke-width: 3px;
+    stroke-linecap: round;
+    fill: none;
+    /* Налаштування для ефекту малювання лінії */
+    stroke-dasharray: 200; 
+    stroke-dashoffset: 200; /* Спочатку лінія "виштовхнута" (прихована) */
+    transition: stroke-dashoffset 0.6s ease-in-out;
+}
+
+.amygdala-pointer-line.drawn {
+    stroke-dashoffset: 0; /* Лінія малюється */
+}
+
+/* Клікабельна зона над червоною точкою (координати x: 1415, y: 430) */
+#amygdala-trigger {
+    position: absolute;
+    top: 39.8%;
+    left: 73.7%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 20;
+    cursor: pointer;
+    opacity: 0; /* Прихована спочатку (з'явиться через JS) */
+    transition: opacity 1s ease;
+}
+
+.trigger-dot {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: transparent; /* Невидима зона поверх самої червоної точки мозку */
+}
+
+.trigger-hint {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1cqw;
+    color: #000;
+    opacity: 0.4; /* Дуже непомітна підказка */
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+}
+
+#amygdala-trigger:hover .trigger-hint {
+    opacity: 1; /* Стає чіткішою при наведенні */
+}
+
+
+
+/* --- СТИЛІ ДЛЯ ПУЛЬСУЮЧОЇ АМИГДАЛИ (Слайд 14) --- */
+
+#amygdala-pulse-trigger {
+    position: absolute;
+    /* Позиціонування поверх червоної точки на головній картинці */
+    top: 38.8%; /* Координати y: 430 */
+    left: 74.39%; /* Координати x: 1415 */
+    transform: translate(-50%, -50%);
+    z-index: 30; /* Вище всього, щоб легко клікалось */
+    cursor: pointer;
+    width: 2cqw;
+    height: 2cqw;
+}
+
+.pulse-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Запускаємо анімацію пульсації, 2 секунди, нескінченно */
+    animation: amygdalaPulse 2s infinite ease-in-out;
+    opacity: 0.2; /* Трохи прозора за замовчуванням */
+}
+
+/* Визначаємо анімацію пульсації */
+@keyframes amygdalaPulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.1;
+    }
+    50% {
+        transform: scale(1.1); /* Збільшуємо на 40% */
+        opacity: 0.8; /* Стає повністю чіткою */
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.1;
+    }
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ ARKATEION --- */
+#slide-arkateion {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 180; /* Той самий рівень, що й у інших внутрішніх локацій */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-arkateion.visible { opacity: 1; pointer-events: auto; }
+
+#arkateion-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 16 / 9;
+    container-type: size;
+}
+
+.arkateion-bg-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; 
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.arkateion-bg-img.revealed { opacity: 1; }
+
+/* Позиція заголовка */
+.arkateion-title-container {
+    position: absolute;
+    top: 8%;
+    left: 10%; 
+    z-index: 10;
+}
+
+/* Позиція опису */
+.arkateion-desc-container {
+    position: absolute;
+    top: 13%;
+    left: 10%; 
+    width: 28%; /* Обмежуємо ширину для правильного переносу рядків */
+    z-index: 10;
+    text-align: left;
+}
+
+.arkateion-main-title {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 800;
+    font-size: 4cqw; 
+    color: #000;
+    margin: 0;
+    line-height: 1;
+}
+
+.arkateion-desc {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.3cqw; 
+    color: #000;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ QUARTIER DES ERMITES --- */
+#slide-quartier {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 180; /* Той самий рівень, що й у інших внутрішніх локацій */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-quartier.visible { opacity: 1; pointer-events: auto; }
+
+#quartier-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 16 / 9;
+    container-type: size;
+}
+
+.quartier-bg-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; 
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.quartier-bg-img.revealed { opacity: 1; }
+
+/* Позиція заголовка */
+.quartier-title-container {
+    position: absolute;
+    top: 8%;
+    left: 8%; 
+    z-index: 10;
+}
+
+/* Позиція опису */
+.quartier-desc-container {
+    position: absolute;
+    top: 13%;
+    left: 8%; 
+    width: 35%; /* Обмежуємо ширину для правильного переносу рядків */
+    z-index: 10;
+    text-align: left;
+}
+
+.quartier-main-title {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 800;
+    font-size: 4cqw; 
+    color: #000;
+    margin: 0;
+    line-height: 1;
+}
+
+.quartier-desc {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.3cqw; 
+    color: #000;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* ========================================= */
+/* --- КНОПКИ ПОВЕРНЕННЯ (НАВІГАЦІЯ) --- */
+/* ========================================= */
+.back-btn {
+    position: absolute;
+    left: 4%;
+    bottom: 6%;
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.2cqw;
+    padding: 10px 20px; 
+    
+    color: #ccc;
+    background-color: #555; 
+    border: 2px solid #000;
+    border-radius: 5px;
+    
+    /* ПОВЕРНУЛИ: курсор звичайний, клікати не можна */
+    cursor: default; 
+    z-index: 500;
+    opacity: 0;
+    
+    /* ПОВЕРНУЛИ: кнопка блокує кліки, поки не стане червоною */
+    pointer-events: none; 
+    
+    transition: opacity 1s ease, transform 0.2s, background-color 0.4s, color 0.4s;
+}
+
+/* Кнопка стає видимою (але сірою), коли слайд відкривається */
+.visible .back-btn { 
+    opacity: 1;
+}
+
+/* КЛАС ГОТОВНОСТІ: Кнопка стає червоною і активною */
+.back-btn.ready {
+    background-color: #bf3030;
+    color: #fff;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.back-btn.ready:hover {
+    transform: scale(1.05);
+    background-color: #fff;
+    color: #bf3030;
+}
+
+/* Обов'язково відключаємо стару верхню координату, яка прописана в HTML */
+.back-btn.top-1 { 
+    top: auto; 
+}
+
+/* Обов'язково відключаємо стару верхню координату, яка прописана в HTML */
+.back-btn.top-1 { 
+    top: auto; 
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ DIE KURILEN (Весна) --- */
+#slide-kurilen {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 180; 
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-kurilen.visible { opacity: 1; pointer-events: auto; }
+
+#kurilen-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 16 / 9;
+    container-type: size;
+}
+
+.kurilen-bg-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; 
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.kurilen-bg-img.revealed { opacity: 1; }
+
+/* Позиція заголовка (згідно SVG x=1118) */
+.kurilen-title-container {
+    position: absolute;
+    top: 8%;
+    left: 58.2%; 
+    z-index: 10;
+}
+
+/* Позиція опису (згідно SVG x=1122) */
+.kurilen-desc-container {
+    position: absolute;
+    top: 13%;
+    left: 58.4%; 
+    width: 32%; /* Обмежуємо ширину для тексту */
+    z-index: 10;
+    text-align: left;
+}
+
+.kurilen-main-title {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 800;
+    font-size: 4cqw; 
+    color: #000;
+    margin: 0;
+    line-height: 1;
+}
+
+.kurilen-desc {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.3cqw; 
+    color: #000;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ VOLKERKREUZER (Весна) --- */
+#slide-volkerkreuzer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 180; 
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+}
+
+#slide-volkerkreuzer.visible { opacity: 1; pointer-events: auto; }
+
+#volkerkreuzer-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 16 / 9;
+    container-type: size;
+}
+
+.volkerkreuzer-bg-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; 
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.volkerkreuzer-bg-img.revealed { opacity: 1; }
+
+/* Позиція заголовка */
+.volkerkreuzer-title-container {
+    position: absolute;
+    top: 8%;
+    left: 6.1%; 
+    z-index: 10;
+}
+
+/* Позиція опису */
+.volkerkreuzer-desc-container {
+    position: absolute;
+    top: 8%;
+    left: 33%; 
+    width: 50%; /* Обмежуємо ширину, щоб текст переносився як у SVG */
+    z-index: 10;
+    text-align: left;
+}
+
+.volkerkreuzer-main-title {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 800;
+    font-size: 4cqw; 
+    color: #000;
+    margin: 0;
+    line-height: 1;
+}
+
+.volkerkreuzer-desc {
+    font-family: 'din-2014', sans-serif;
+    font-weight: 700;
+    font-size: 1.3cqw; 
+    color: #000;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* ========================================= */
+/* --- ЕФЕКТ ШУМУ (ВТРАТА СИГНАЛУ) --- */
+/* ========================================= */
+#noise-screen {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 400; /* Перекриває майже все */
+    display: none; 
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background-color: #111;
+    /* Генеруємо телевізійний шум прямо в CSS за допомогою SVG */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.6'/%3E%3C/svg%3E");
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Створюємо ілюзію мерехтіння (руху) шуму */
+#noise-screen::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.1);
+    animation: noiseFlicker 0.1s infinite;
+    pointer-events: none;
+}
+
+@keyframes noiseFlicker {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.noise-text {
+    font-family: 'din-2014', sans-serif;
+    font-size: 4cqw;
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+    background: rgba(191, 48, 48, 0.8); /* Червоний акцент */
+    padding: 20px 40px;
+    border: 3px solid #000;
+    z-index: 401;
+    animation: textBlink 1.5s infinite;
+}
+
+@keyframes textBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ SUMMER - HAUPTSTADT --- */
+#slide-summer-hauptstadt {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex; justify-content: center; align-items: center;
+    z-index: 180; opacity: 0; transition: opacity 1s ease-in-out; pointer-events: none;
+}
+#slide-summer-hauptstadt.visible { opacity: 1; pointer-events: auto; }
+
+#summer-hauptstadt-wrapper {
+    position: relative; width: 100%; max-width: 1920px; aspect-ratio: 16 / 9; container-type: size;
+}
+
+.summer-hauptstadt-bg-img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out;
+}
+.summer-hauptstadt-bg-img.revealed { opacity: 1; }
+
+.summer-hauptstadt-title-container { position: absolute; top: 8%; left: 8%; z-index: 10; }
+.summer-hauptstadt-desc-container { position: absolute; top: 13%; left: 8%; width: 25%; z-index: 10; text-align: left; }
+
+.summer-hauptstadt-main-title {
+    font-family: 'din-2014', sans-serif; font-weight: 800; font-size: 4cqw; color: #000; margin: 0; line-height: 1;
+}
+.summer-hauptstadt-desc {
+    font-family: 'din-2014', sans-serif; font-weight: 700; font-size: 1.3cqw; color: #000; line-height: 1.3; margin: 0;
+}
+
+/* --- СТИЛІ ДЛЯ СЛАЙДУ SUMMER - GENERALSTAB --- */
+#slide-summer-generalstab {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex; justify-content: center; align-items: center;
+    z-index: 180; opacity: 0; transition: opacity 1s ease-in-out; pointer-events: none;
+}
+#slide-summer-generalstab.visible { opacity: 1; pointer-events: auto; }
+
+#summer-generalstab-wrapper {
+    position: relative; width: 100%; max-width: 1920px; aspect-ratio: 16 / 9; container-type: size;
+}
+
+.summer-generalstab-bg-img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out;
+}
+.summer-generalstab-bg-img.revealed { opacity: 1; }
+
+/* Позиції тексту */
+.summer-generalstab-title-container { position: absolute; top: 8%; left: 5%; z-index: 10; }
+.summer-generalstab-desc-container { position: absolute; top: 13%; left: 5%; width: 36%; z-index: 10; text-align: left; }
+
+.summer-generalstab-main-title {
+    font-family: 'din-2014', sans-serif; font-weight: 800; font-size: 4cqw; color: #000; margin: 0; line-height: 1;
+}
+.summer-generalstab-desc {
+    font-family: 'din-2014', sans-serif; font-weight: 700; font-size: 1.3cqw; color: #000; line-height: 1.3; margin: 0;
+}
+
+/* --- STYLES FÜR SLIDE AUTONOM - WAFFENFABRIK --- */
+#slide-autonom-waffenfabrik {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #afafaf;
+    display: flex; justify-content: center; align-items: center;
+    z-index: 180; opacity: 0; transition: opacity 1s ease-in-out; pointer-events: none;
+}
+
+#slide-autonom-waffenfabrik.visible { opacity: 1; pointer-events: auto; }
+
+#autonom-waffenfabrik-wrapper {
+    position: relative; width: 100%; max-width: 1920px; aspect-ratio: 16 / 9; container-type: size;
+}
+
+.waffenfabrik-bg-img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out;
+}
+.waffenfabrik-bg-img.revealed { opacity: 1; }
+
+/* Positionen für Titel und Text */
+.waffenfabrik-title-container { position: absolute; top: 8%; left: 39.6%; z-index: 10; }
+.waffenfabrik-desc-container { position: absolute; top: 13%; left: 39.6%; width: 25%; z-index: 10; text-align: left; }
+
+.waffenfabrik-main-title {
+    font-family: 'din-2014', sans-serif; font-weight: 800; font-size: 4cqw; color: #000; margin: 0; line-height: 1;
+}
+.waffenfabrik-desc {
+    font-family: 'din-2014', sans-serif; font-weight: 700; font-size: 1.3cqw; color: #000; line-height: 1.3; margin: 0;
+}
+
+/* ========================================= */
+/* --- СТИЛІ ДЛЯ СЛАЙДУ GEBRECHEN --- */
+/* ========================================= */
+#slide-gebrechen {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #afafaf; display: flex; justify-content: center; align-items: center;
+    z-index: 200; opacity: 0; transition: opacity 1s ease-in-out; pointer-events: none;
+}
+
+#slide-gebrechen.visible { opacity: 1; pointer-events: auto; }
+
+#gebrechen-wrapper {
+    position: relative;
+    width: 100%;
+    /* Ця формула гарантує, що пропорція 16:9 НІКОЛИ не порушиться: */
+    max-width: min(1920px, calc(100vh * 16 / 9)); 
+    max-height: 100vh;
+    aspect-ratio: 16 / 9;
+    margin: auto;
+    container-type: size;
+}
+
+.gebrechen-bg-img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: contain; opacity: 0; transition: opacity 1.5s ease-in-out;
+}
+.gebrechen-bg-img.revealed { opacity: 1; }
+
+.gebrechen-pointer-line.drawn { stroke-dashoffset: 0; }
+
+/* Пульсуючий тригер на серці (координати приблизно x: 1565, y: 315) */
+#gebrechen-pulse-trigger {
+    position: absolute;
+    top: 29.2%; left: 14.65%;
+    transform: translate(-50%, -50%);
+    z-index: 30; cursor: pointer;
+    width: 4cqw; height: 4cqw;
+}
+
+/* Текстовий блок зліва (згідно SVG x=93) */
+/* Прозора обгортка на весь екран (потрібна для плавного проявлення через JS) */
+#gebrechen-text-content {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
+}
+
+/* --- КООРДИНАТИ ЗАГОЛОВКА (з SVG: x=710, y=159) --- */
+#gebrechen-text-content {
+    position: absolute;
+    top: 8%;       
+    left: 37%;     
+    width: 60%;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5cqw; /* Фіксований відступ між блоками */
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Відступи перед новими розділами "Erworbene" */
+#erworbene-gebrechen-section, #erworbene-fears-section {
+    margin-top: 1.5cqw;
+    display: flex;
+    flex-direction: column;
+    gap: 1cqw;
+}
+
+/* --- СІТКА ДЛЯ СТРАХІВ --- */
+#erworbene-fears-list {
+    display: grid;
+    grid-template-rows: repeat(11, min-content);
+    grid-template-columns: auto auto; /* Ширина колонок строго по довжині тексту */
+    justify-content: start; /* Притискаємо колонки до лівого краю і один до одного */
+    grid-auto-flow: column;
+    column-gap: 2cqw; /* <--- ТЕПЕР ЦЕ РЕАЛЬНА ВІДСТАНЬ, ВОНА ПРАЦЮВАТИМЕ */
+    row-gap: 0.5cqw;
+    font-family: 'din-2014', sans-serif; 
+    font-weight: 700; 
+    font-size: 1.1cqw; 
+    color: #000;
+}
+
+/* --- СІТКА ДЛЯ ХВОРОБ --- */
+#erworbene-gebrechen-list {
+    display: grid;
+    grid-template-rows: repeat(12, min-content);
+    grid-template-columns: auto auto; /* Ширина колонок строго по довжині тексту */
+    justify-content: start; /* Притискаємо колонки до лівого краю і один до одного */
+    grid-auto-flow: column;
+    column-gap: 2cqw; /* <--- ТЕПЕР ЦЕ РЕАЛЬНА ВІДСТАНЬ, ВОНА ПРАЦЮВАТИМЕ */
+    row-gap: 0.5cqw;
+    font-family: 'din-2014', sans-serif; 
+    font-weight: 700; 
+    font-size: 1.1cqw; 
+    color: #000;
+}
+
+/* Шрифти (відступи між рядками збережено з твого макету) */
+.gebrechen-main-title {
+    font-family: 'din-2014', sans-serif; 
+    font-weight: 800; 
+    font-size: 3.5cqw; 
+    color: #000; 
+    margin: 0; 
+    line-height: 0.8;
+}
+
+.gebrechen-list {
+    font-family: 'din-2014', sans-serif; 
+    font-weight: 700; 
+    font-size: 1.3cqw; 
+    color: #000; 
+    line-height: 1.5;
+    white-space: pre-wrap; /* Зберігає переноси рядків */
+    margin: 0;
+}
+
+#slide-gebrechen .back-btn {
+    left: auto;    /* Відключаємо стандартну прив'язку до лівого краю */
+    right: 4%;     /* Притискаємо кнопку до правого краю */
+}
+
+/* ========================================= */
+/* --- ВІДВІДАНІ ТОЧКИ (СІРІ) --- */
+/* ========================================= */
+
+/* Сірий колір для точок на головній карті */
+.map-checkpoint.visited {
+    background-color: #555555 !important;
+}
+
+/* Сірий колір для точок усередині регіонів */
+.visited .winter-checkpoint,
+.visited .autumn-checkpoint,
+.visited .summer-checkpoint,
+.visited .spring-checkpoint,
+.visited .autonom-checkpoint {
+    background-color: #555555 !important;
+}
+
+/* Щоб сірі точки світилися сірим, а не червоним при наведенні */
+.map-checkpoint.visited:hover,
+.visited .winter-checkpoint:hover,
+.visited .autumn-checkpoint:hover,
+.visited .summer-checkpoint:hover,
+.visited .spring-checkpoint:hover,
+.visited .autonom-checkpoint:hover {
+    box-shadow: 0 0 10px rgba(85, 85, 85, 0.8) !important;
+}
+
+/* Робимо текст підпису також тьмяно-сірим для відвіданих місць */
+.visited .winter-label,
+.visited .autumn-label,
+.visited .summer-label,
+.visited .spring-label,
+.visited .autonom-label {
+    color: #555555;
+}
+
+/* --- МАЛЕНЬКА ЧЕРВОНА КРАПОЧКА ОНОВЛЕННЯ --- */
+.notification-badge {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    width: 0.8cqw; /* Маленький розмір */
+    height: 0.8cqw;
+    background-color: #bf3030; 
+    border-radius: 50%;
+    border: 1.5px solid #000;
+    pointer-events: none; 
+    animation: badgePulse 1.5s infinite;
+    z-index: 140;
+}
+
+/* Для лівої стрілки віддзеркалюємо позицію */
+.notification-badge.left-badge {
+    right: auto;
+    left: 5%; 
+}
+
+@keyframes badgePulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(191, 48, 48, 0.7); }
+    50% { transform: scale(1.2); box-shadow: 0 0 8px rgba(191, 48, 48, 0.7); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(191, 48, 48, 0); }
+}

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Anatomy of Control</title>
+    <link href="./style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/wmb0taf.css">
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="./sound/einleitung.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="noise-screen">
+        <div class="noise-text">KEIN SIGNAL<br><span style="font-size: 1.5vw;">Hier klicken</span></div>
+    </div>
+
+    <div id="background-words"></div>
+
+    <div id="slide-1" class="text-container">
+        <h1 class="french-text" id="fr-line-1">La société de l'Hiver Éternel a bien des problèmes</h1>
+        <h2 class="german-text" id="de-line-1">Die Gesellschaft des Ewigen Winters hat so einige Probleme</h2>
+    </div>
+
+    <div id="slide-3" class="text-container" style="display: none;">
+        <h1 class="french-text" id="fr-line-3">J'ai essayé de réparer ça</h1>
+        <h2 class="german-text" id="de-line-3">Ich habe versucht, es zu beheben</h2>
+    </div>
+
+    <div id="slide-4" class="text-container" style="display: none;">
+        <h1 class="french-text" id="fr-line-4">Jusqu‘à ce que je réalise que c‘est impossible</h1>
+        <h2 class="german-text" id="de-line-4">Bis ich begriff, dass es unmöglich ist</h2>
+    </div>
+
+    <div id="slide-5" class="text-container" style="display: none;">
+        <h1 class="french-text" id="fr-line-5">car les habitants de l'Hiver Éternel sont figés par la</h1>
+        <h2 class="german-text" id="de-line-5">denn die Bewohner des Ewigen Winters sind gelähmt von</h2>
+    </div>
+
+   <div id="slide-6-7" style="display: none;">
+        <h1 id="peur-text">PEUR</h1>
+        <div id="angst-container"></div>
+        <div id="red-screen"></div>
+    </div>
+
+   <div id="slide-8" style="display: none;">
+        <div id="map-wrapper">
+            <img src="./pictures/karte.jpg" id="map-image-element" alt="Map">
+            
+            <div class="map-checkpoint" id="cp-1" style="top: 25%; left: 31.7%;"></div>
+            <div class="map-checkpoint" id="cp-2" style="top: 53%; left: 45.5%;"></div>
+            <div class="map-checkpoint" id="cp-3" style="top: 39%; left: 60.6%;"></div> 
+            <div class="map-checkpoint" id="cp-4" style="top: 73%; left: 51.0%;"></div>
+            <div class="map-checkpoint" id="cp-5" style="top: 74%; left: 67.7%;"></div>
+            
+            <div id="next-arrow-amygdala" class="nav-arrow">
+                ⇨
+                <div class="notification-badge" id="badge-amygdala" style="display: none;"></div>
+            </div>
+
+            <div id="prev-arrow-gebrechen" class="nav-arrow left-arrow">
+                ⇦
+                <div class="notification-badge left-badge" id="badge-gebrechen" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+   <div id="slide-9" style="display: none;">
+        <div id="winter-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToMap('slide-9')">⟵ Weltkarte</div>
+            <div id="winter-visual-container">
+                <img src="./pictures/winter.jpg" class="winter-image" alt="Ewiger Winter">
+                
+                <div class="winter-checkpoint-group" id="winter-cp-1" style="top: 50%; left: 62%;">
+                    <div class="winter-checkpoint"></div>
+                    <div class="winter-label">Delta-SRC</div>
+                </div>
+                
+                <div class="winter-checkpoint-group" id="winter-cp-2" style="top: 43%; left: 51%;">
+                    <div class="winter-checkpoint"></div>
+                    <div class="winter-label">Das Zentrum</div>
+                </div>
+                
+                <div class="winter-checkpoint-group" id="winter-cp-3" style="top: 58%; left: 45%;">
+                    <div class="winter-checkpoint"></div>
+                    <div class="winter-label">Arkateion</div>
+                </div>
+                
+                <div class="winter-checkpoint-group" id="winter-cp-4" style="top: 62%; left: 64%;">
+                    <div class="winter-checkpoint"></div>
+                    <div class="winter-label">Quartier des ermites</div>
+                </div>
+            </div>
+            
+            <div class="winter-title-container">
+                <h1 class="winter-title" id="winter-title">Ewiger Winter</h1>
+            </div>
+
+            <div class="winter-desc-container">
+                <p class="winter-desc" id="winter-desc">
+                    – ein nördlicher Kontinent, das „tote Land“. Die Sonne wärmt hier nicht. Alle Niederschläge sind säurehaltig, jegliche Nahrung ist synthetisch. Die Gebäude hier sind größtenteils schwarz, um die Wärme bestmöglich zu speichern. Da eine Energietransduktion hier unmöglich ist, bleiben die sogenannten Deltas (mutierte Frauen) die einzige Energiequelle. Der hiesige Diktator ist der Exarch. Er hat dieses System vor vierhundert Jahren erschaffen.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="slide-zentrum" style="display: none;">
+        <div id="zentrum-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToWinter('slide-zentrum')">⟵ Ewiger Winter</div>
+            <img src="./pictures/zentrum.jpg" class="zentrum-bg-img" alt="Das Zentrum">
+            
+            <div class="zentrum-title-container">
+                <h1 class="zentrum-main-title" id="zentrum-title">Das Zentrum</h1>
+            </div>
+
+            <div class="zentrum-desc-container">
+                <p class="zentrum-desc" id="zentrum-desc">
+                    – der Teil der Stadt, in dem die Reichen und Privilegierten leben. Optisch ansprechend, geometrisch gebaut und bei Energieknappheit stets priorisiert. An absolut jedem Gebäude ist eine Überwachungskamera installiert.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="slide-delta" style="display: none;">
+        <div id="delta-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToWinter('slide-delta')">⟵ Ewiger Winter</div>
+            <img src="./pictures/delta.jpg" class="delta-bg-img" alt="Delta-SRC">
+            
+            <div class="delta-title-container">
+                <h1 class="delta-main-title" id="delta-title">Delta-SRC (Staatliche Ressourcenzentren)</h1>
+            </div>
+
+            <div class="delta-desc-container">
+                <p class="delta-desc" id="delta-desc">
+                    – Zentren zur Energiegewinnung. Frauen, bei denen in der Kindheit eine spezielle Mutation festgestellt wurde, werden hierher gebracht und wie Tiere gehalten. Sie sind nicht in der Lage zu sprechen und sterben durch das ständige Abpumpen ihrer Energie, noch bevor sie dreißig Jahre alt werden.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="slide-arkateion" style="display: none;">
+        <div id="arkateion-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToWinter('slide-arkateion')">⟵ Ewiger Winter</div>
+            <img src="./pictures/arkateion.jpg" class="arkateion-bg-img" alt="Arkateion">
+            
+            <div class="arkateion-title-container">
+                <h1 class="arkateion-main-title" id="arkateion-title">Arkateion</h1>
+            </div>
+
+            <div class="arkateion-desc-container">
+                <p class="arkateion-desc" id="arkateion-desc">
+                    – ein Rehabilitationszentrum für Wissenschaftler, deren öffentliche Haltung von der allgemein akzeptierten Norm abweicht. Hier wird die Elektrokrampftherapie (Elektroschocktherapie) mit dem Ziel der Persönlichkeitskorrektur angewandt.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="slide-quartier" style="display: none;">
+        <div id="quartier-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToWinter('slide-quartier')">⟵ Ewiger Winter</div>
+            
+            <img src="./pictures/quartier.jpg" class="quartier-bg-img" alt="Quartier des ermites">
+            
+            <div class="quartier-title-container">
+                <h1 class="quartier-main-title" id="quartier-title">Quartier des ermites</h1>
+            </div>
+
+            <div class="quartier-desc-container">
+                <p class="quartier-desc" id="quartier-desc">
+                    – ein unprivilegierter Teil der Stadt, in dem die Armen leben. Oft werden hier Strom und Heizung abgeschaltet. Etwa dreißig Prozent der Bewohner leiden unter gesundheitlichen Problemen, die durch das ständige Leben in der Kälte verursacht werden.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+   <div id="slide-10" style="display: none;">
+        <div id="autumn-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToMap('slide-10')">⟵ Weltkarte</div>
+
+            <div id="autumn-visual-container">
+                <img src="./pictures/autumn.jpg" class="autumn-island-img" alt="Ewiger Herbst Map">
+                
+                <div class="autumn-checkpoint-group" id="autumn-cp-1" style="top: 45%; left: 55%;">
+                    <div class="autumn-checkpoint"></div>
+                    <div class="autumn-label">Hauptstadt</div>
+                </div>
+            </div>
+            
+            <div class="autumn-title-container">
+                <h1 class="autumn-title" id="autumn-title">Ewiger Herbst</h1>
+            </div>
+
+            <div class="autumn-desc-container">
+                <p class="autumn-desc" id="autumn-desc">
+                    – eine südwestliche Industrieregion, die durch einen Bleizaun vom Ewigen Winter abgetrennt ist. Einst schickten sie Deltas zu uns. Jetzt leidet die Bevölkerung massenhaft an Hunger (zumindest behaupten das die Nachrichten).
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="slide-11" style="display: none;">
+        <div id="summer-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToMap('slide-11')">⟵ Weltkarte</div>
+
+            <div id="summer-visual-container">
+                <img src="./pictures/summer.jpg" class="summer-island-img" alt="Ewiger Sommer Map">
+                
+                <div class="summer-checkpoint-group" id="summer-cp-1" style="top: 40%; left: 45%;">
+                    <div class="summer-checkpoint"></div>
+                    <div class="summer-label">Hauptstadt</div>
+                </div>
+
+                <div class="summer-checkpoint-group" id="summer-cp-2" style="top: 45%; left: 55%;">
+                    <div class="summer-checkpoint"></div>
+                    <div class="summer-label">Generalstab</div>
+                </div>
+            </div>
+            
+            <div class="summer-title-container">
+                <h1 class="summer-title" id="summer-title">Ewiger Sommer</h1>
+            </div>
+
+            <div class="summer-desc-container">
+                <p class="summer-desc" id="summer-desc">
+                    – ich weiß nur, dass es ein Kontinent jenseits des Ozeans und der wichtigste Lieferant von Nahrungsmitteln ist. Er zeichnet sich durch ein heißes Klima und billige Arbeitskräfte aus. Führt Krieg gegen Ewigen Herbst.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="slide-summer-hauptstadt" style="display: none;">
+        <div id="summer-hauptstadt-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToSummer('slide-summer-hauptstadt')">⟵ Ewiger Sommer</div>
+            
+            <img src="./pictures/hauptstadt.jpg" class="summer-hauptstadt-bg-img" alt="Hauptstadt Sommer">
+            
+            <div class="summer-hauptstadt-title-container">
+                <h1 class="summer-hauptstadt-main-title" id="summer-hauptstadt-title">Hauptstadt</h1>
+            </div>
+
+            <div class="summer-hauptstadt-desc-container">
+                <p class="summer-hauptstadt-desc" id="summer-hauptstadt-desc">
+                    – flächenmäßig sehr groß und ursprünglich auf den Tourismus ausgerichtet. Infolge der Bombardierungen durch den „Ewigen Herbst“ wurde sie zu fünfunddreißig Prozent zerstört und hat beinahe alle ausländischen Kunden im Dienstleistungssektor verloren. Die Stadt befindet sich in einer tiefen Wirtschaftskrise.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="slide-summer-generalstab" style="display: none;">
+        <div id="summer-generalstab-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToSummer('slide-summer-generalstab')">⟵ Ewiger Sommer</div>
+            
+            <img src="./pictures/generalstab.jpg" class="summer-generalstab-bg-img" alt="Generalstab">
+            
+            <div class="summer-generalstab-title-container">
+                <h1 class="summer-generalstab-main-title" id="summer-generalstab-title">Generalstab</h1>
+            </div>
+
+            <div class="summer-generalstab-desc-container">
+                <p class="summer-generalstab-desc" id="summer-generalstab-desc">
+                    – ein Konferenzsaal, in dem hochrangige Ausländer über das Schicksal der hiesigen Bevölkerung entscheiden.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="slide-12" style="display: none;">
+        <div id="spring-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToMap('slide-12')">⟵ Weltkarte</div>
+
+            <div id="spring-visual-container">
+                <img src="./pictures/spring.jpg" class="spring-island-img" alt="Ewiger Frühling Map">
+                
+                <div class="spring-checkpoint-group" id="spring-cp-1" style="top: 50%; left: 27%;">
+                    <div class="spring-checkpoint"></div>
+                    <div class="spring-label">die Kurilen</div>
+                </div>
+
+                <div class="spring-checkpoint-group" id="spring-cp-2" style="top: 56%; left: 48%;">
+                    <div class="spring-checkpoint"></div>
+                    <div class="spring-label">Volkerkreizer</div>
+                </div>
+            </div>
+            
+            <div class="spring-title-container">
+                <h1 class="spring-title" id="spring-title">Ewiger Frühling</h1>
+            </div>
+
+            <div class="spring-desc-container">
+                <p class="spring-desc" id="spring-desc">
+                    – eine Region, in der alles blüht. Die Technologien sind hier höchstwahrscheinlich fortschrittlicher als im Ewigen Winter – aber darüber spricht hier niemand. Die Heimat der Künstlichen Intelligenz. Kürzlich fand hier eine robotische Revolution unter dem Motto „cogito ergo sum“ statt, durch die sie die gleichen Rechte wie die Menschen erhielt.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="slide-kurilen" style="display: none;">
+        <div id="kurilen-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToSpring('slide-kurilen')">⟵ Ewiger Frühling</div>
+            
+            <img src="./pictures/kurilen.jpg" class="kurilen-bg-img" alt="Die Kurilen">
+            
+            <div class="kurilen-title-container">
+                <h1 class="kurilen-main-title" id="kurilen-title">Die Kurilen</h1>
+            </div>
+
+            <div class="kurilen-desc-container">
+                <p class="kurilen-desc" id="kurilen-desc">
+                    – vom Ewigen Herbst besetzte Gebiete. Dort lebte ein großer Teil der indigenen Bevölkerung des Ewigen Frühlings – doch sie wurden zwangsumgesiedelt, um stattdessen Bewohner des Ewigen Herbstes anzusiedeln. Ungefähr dreißig Prozent der Umgesiedelten starben während des Transports.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="slide-volkerkreuzer" style="display: none;">
+        <div id="volkerkreuzer-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToSpring('slide-volkerkreuzer')">⟵ Ewiger Frühling</div>
+            
+            <img src="./pictures/volkerkreizer.jpg" class="volkerkreuzer-bg-img" alt="Volkerkreuzer">
+            
+            <div class="volkerkreuzer-title-container">
+                <h1 class="volkerkreuzer-main-title" id="volkerkreuzer-title">Volkerkreuzer</h1>
+            </div>
+
+            <div class="volkerkreuzer-desc-container">
+                <p class="volkerkreuzer-desc" id="volkerkreuzer-desc">
+                    – sie werden von den Wolken gestreift, während sie in die Stratosphäre ragen. Ein Wohngebäude muss hier mindestens zwanzig Stockwerke haben; in Neubauten sind mehrere Etagen speziell für Roboter reserviert. Die Wohnungen dort sind im Grunde reine Ladestationen mit verstärkter Luftfilterung und Thermoregulation.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="slide-13" style="display: none;">
+        <div id="autonom-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToMap('slide-13')">⟵ Weltkarte</div>
+            <div id="autonom-visual-container">
+                <img src="./pictures/autonom.jpg" class="autonom-island-img" alt="Halbautonome Zone Map">
+                
+                <div class="autonom-checkpoint-group" id="autonom-cp-1" style="top: 50%; left: 63%;">
+                    <div class="autonom-checkpoint"></div>
+                    <div class="autonom-label">Waffenfabrik</div>
+                </div>
+            </div>
+            
+            <div class="autonom-title-container">
+                <h1 class="autonom-title" id="autonom-title">Halbautonome Zone</h1>
+            </div>
+
+            <div class="autonom-desc-container">
+                <p class="autonom-desc" id="autonom-desc">
+                    -----
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="slide-autonom-waffenfabrik" style="display: none;">
+        <div id="autonom-waffenfabrik-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToAutonom('slide-autonom-waffenfabrik')">⟵ Halbautonome Zone</div>
+            
+            <img src="./pictures/waffenfabrik.jpg" class="waffenfabrik-bg-img" alt="Waffenfabrik">
+            
+            <div class="waffenfabrik-title-container">
+                <h1 class="waffenfabrik-main-title" id="waffenfabrik-title">Waffenfabrik</h1>
+            </div>
+
+            <div class="waffenfabrik-desc-container">
+                <p class="waffenfabrik-desc" id="waffenfabrik-desc">
+                    – tief unter der Erde versteckt und in verschiedene Werkhallen unterteilt: für die Verarbeitung von Sperrholz, die Montage von Motoren und das Löten billiger Elektronik. Die Montagearbeiter arbeiten in zwei Schichten unter der ständigen Aufsicht der Geheimdienste.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div id="slide-14" style="display: none;">
+        <div id="amygdala-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToMap('slide-14')">⟵ Weltkarte</div>
+            <img src="./pictures/amygdala.jpg" class="amygdala-bg-img" alt="Amygdala">
+            
+            <svg id="amygdala-line-svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet">
+                <line class="amygdala-pointer-line" x1="1413" y1="436" x2="1292" y2="507" />
+            </svg>
+
+            <div id="amygdala-pulse-trigger" style="display: none;" onclick="event.stopPropagation(); handleAmygdalaPulseClick();">
+                <img src="./pictures/amygdala_piece.png" class="pulse-icon" alt="Pulse Indicator">
+            </div>
+
+            <div id="fears-text-content" style="opacity: 0;">
+                <h1 class="amygdala-main-title" id="geborene-title">Geborene Ängste</h1>
+                <div class="fears-list" id="geborene-list">Angst vor lauten Geräuschen
+Angst vor dem Fallen</div>
+
+                <div id="erworbene-fears-section" style="display: none;">
+                    <h1 class="amygdala-main-title">Erworbene Ängste</h1>
+                    <div class="dynamic-grid-list" id="erworbene-fears-list"></div>
+                </div>
+            </div>
+
+            <div id="amygdala-text-content" style="opacity: 0;">
+                <div class="amygdala-title-container">
+                    <h1 class="amygdala-main-title" id="amygdala-title">Amygdala</h1>
+                </div>
+                <div class="amygdala-desc-container">
+                    <p class="amygdala-desc" id="amygdala-desc">
+                        Das zentrale Areal für die Konditionierung von Furcht - sie verknüpft neutrale Reize mit aversiven Erfahrungen und etabliert so ein emotionales Gefahrengedächtnis.
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="slide-gebrechen" style="display: none;">
+        <div id="gebrechen-wrapper">
+            <div class="back-btn top-1" onclick="event.stopPropagation(); backToMap('slide-gebrechen')">Weltkarte ⟶</div>
+            
+            <img src="./pictures/gebrechen.jpg" class="gebrechen-bg-img" alt="Gebrechen">
+
+            <div id="gebrechen-pulse-trigger" style="display: none;" onclick="event.stopPropagation(); handleGebrechenPulseClick();">
+                <img src="./pictures/herz.png" class="pulse-icon" alt="Pulse Indicator">
+            </div>
+
+            <div id="gebrechen-text-content" style="opacity: 0;">
+                <h1 class="gebrechen-main-title" id="gebrechen-title">Geborene Gebrechen</h1>
+                <div class="gebrechen-list" id="gebrechen-list">Reibeisenhaut (Keratosis pilaris)
+Rosazea (Kupferrose)</div>
+
+                <div id="erworbene-gebrechen-section" style="display: none;">
+                    <h1 class="gebrechen-main-title">Erworbene Gebrechen</h1>
+                    <div class="dynamic-grid-list" id="erworbene-gebrechen-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="slide-15" class="text-container" style="display: none;">
+        <h1 class="french-text" id="fr-line-15">Autrefois, je croyais que...</h1>
+        <h2 class="german-text" id="de-line-15">Einst glaubte ich...</h2>
+    </div>
+
+    <div id="slide-16" class="text-container" style="display: none;">
+        <h1 class="french-text" id="fr-line-16">la société de l‘Hiver Éternel avait bien des problèmes</h1>
+        <h2 class="german-text" id="de-line-16">die Gesellschaft des Ewigen Winters hätte einige Probleme</h2>
+    </div>
+
+    <div id="slide-17" class="text-container" style="display: none;">
+        <h1 class="french-text" id="fr-line-17">Maintenant, je ne vois pas le mal</h1>
+        <h2 class="german-text" id="de-line-17">Jetzt sehe ich das Böse nicht</h2>
+    </div>
+
+    <div id="slide-18" class="text-container" style="display: none;">
+        <h1 class="french-text" id="fr-line-18">– donc, il n'existe pas</h1>
+        <h2 class="german-text" id="de-line-18">– also existiert es nicht</h2>
+    </div>
+
+    <div id="slide-19" class="text-container" style="display: none;">
+        <h1 class="french-text" id="fr-line-19">(J'ai peur)</h1>
+        <h2 class="german-text" id="de-line-19">(Ich habe Angst)</h2>
+    </div>
+
+    <script src="./js/settings.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/script.js"></script>
+</body>
+</html>
