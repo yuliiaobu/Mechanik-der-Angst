@@ -83,17 +83,41 @@ let hasSeenAmygdala = false;
 let hasSeenGebrechen = false;
 let mapPointsRevealed = false;
 
+// =========================================================
+// --- АУДІО-МЕНЕДЖЕР (КЕРУВАННЯ МУЗИКОЮ) ---
+// =========================================================
+let currentAudioId = null;
+
+function switchMusic(newAudioId, targetVolume = 0.5) {
+    if (currentAudioId === newAudioId) return; // Якщо цей трек вже грає - нічого не робимо
+    
+    // Зупиняємо попередній трек
+    if (currentAudioId) {
+        const oldAudio = document.getElementById(currentAudioId);
+        if (oldAudio) {
+            oldAudio.pause();
+            // Ми навмисно не скидаємо час на 0. Коли юзер повернеться на карту, музика продовжиться з того ж місця!
+        }
+    }
+    
+    // Вмикаємо новий трек
+    if (newAudioId) {
+        const newAudio = document.getElementById(newAudioId);
+        if (newAudio) {
+            newAudio.volume = targetVolume;
+            newAudio.play().catch(e => console.log("Браузер чекає кліку:", e));
+        }
+    }
+    currentAudioId = newAudioId;
+}
+
 // --- 4. ГОЛОВНИЙ ОБРОБНИК КЛІКІВ (Слайди 1-8 та поява внутрішніх точок) ---
 let isMusicPlaying = false;
 document.body.addEventListener('click', () =>  {
     // --- ЗАПУСК МУЗИКИ ПРИ ПЕРШОМУ КЛІКУ ---
     if (!isMusicPlaying) {
-        const bgMusic = document.getElementById('bg-music');
-        if (bgMusic) {
-            bgMusic.volume = 0.4; // Гучність (від 0.0 до 1.0). Можеш зробити тихіше або гучніше
-            bgMusic.play().catch(e => console.log("Музика заблокована браузером"));
-            isMusicPlaying = true;
-        }
+        switchMusic('music-intro', 0.4); // <-- ВМИКАЄМО part1.mp3 (Вступ)
+        isMusicPlaying = true;
     }
     if (currentState === 'START') {
         currentState = 'TYPING_1';
@@ -169,6 +193,9 @@ document.body.addEventListener('click', () =>  {
         document.getElementById('slide-6-7').style.display = 'block';
         document.getElementById('peur-text').classList.add('revealed');
         generatedAngst[0].classList.add('revealed');
+        
+        switchMusic('music-angst', 0.8); // <-- ВМИКАЄМО angst.mp3 (Паніка)
+        
         currentState = 'READY_FOR_SLIDE_7';
     }
     else if (currentState === 'READY_FOR_SLIDE_7') {
@@ -208,6 +235,7 @@ document.body.addEventListener('click', () =>  {
     }
     else if (currentState === 'READY_FOR_MAP') {
         currentState = 'TRANSITIONING_MAP';
+        switchMusic('music-map', 0.4);
         const slide8 = document.getElementById('slide-8');
         slide8.style.display = 'flex';
         setTimeout(() => {
@@ -235,6 +263,7 @@ document.body.addEventListener('click', () =>  {
 document.getElementById('cp-3').addEventListener('click', (e) => {
     e.stopPropagation();
     if (currentState === 'MAP_INTERACTIVE') {
+        switchMusic('music-regions', 0.4);
         currentState = 'IN_WINTER_REGION';
         const s9 = document.getElementById('slide-9');
         s9.style.display = 'flex';
@@ -263,6 +292,7 @@ document.getElementById('cp-3').addEventListener('click', (e) => {
 document.getElementById('cp-2').addEventListener('click', (e) => {
     e.stopPropagation();
     if (currentState === 'MAP_INTERACTIVE') {
+        switchMusic('music-regions', 0.4);
         currentState = 'IN_AUTUMN_REGION';
         const s10 = document.getElementById('slide-10');
         s10.style.display = 'flex';
@@ -291,6 +321,7 @@ document.getElementById('cp-2').addEventListener('click', (e) => {
 document.getElementById('cp-1').addEventListener('click', (e) => {
     e.stopPropagation();
     if (currentState === 'MAP_INTERACTIVE') {
+        switchMusic('music-regions', 0.4);
         currentState = 'IN_SUMMER_REGION';
         const s11 = document.getElementById('slide-11');
         s11.style.display = 'flex';
@@ -319,6 +350,7 @@ document.getElementById('cp-1').addEventListener('click', (e) => {
 document.getElementById('cp-5').addEventListener('click', (e) => {
     e.stopPropagation();
     if (currentState === 'MAP_INTERACTIVE') {
+        switchMusic('music-regions', 0.4);
         currentState = 'IN_SPRING_REGION';
         const s12 = document.getElementById('slide-12');
         s12.style.display = 'flex';
@@ -347,6 +379,7 @@ document.getElementById('cp-5').addEventListener('click', (e) => {
 document.getElementById('cp-4').addEventListener('click', (e) => {
     e.stopPropagation();
     if (currentState === 'MAP_INTERACTIVE') {
+        switchMusic('music-regions', 0.4);
         currentState = 'IN_AUTONOM_REGION';
         const s13 = document.getElementById('slide-13');
         s13.style.display = 'flex';
@@ -407,6 +440,7 @@ if (arrowLeftBtn) {
 
 // ================== АМИГДАЛА ==================
 function triggerAmygdalaSlide() {
+    switchMusic('music-fears', 0.5);
     currentState = 'IN_AMYGDALA_SLIDE';
     const s14 = document.getElementById('slide-14');
     s14.style.display = 'flex';
@@ -722,34 +756,46 @@ function triggerVolkerkreuzerSlide() {
 }
 
 // =========================================================
-// УНІВЕРСАЛЬНА ЛОГІКА ШУМУ
+// УНІВЕРСАЛЬНА ЛОГІКА ШУМУ (АВТОМАТИЧНИЙ ПЕРЕХІД + ЗВУК)
 // =========================================================
-let noiseTargetCallback = null; // Змінна для запам'ятовування, яку локацію відкрити після шуму
+let noiseTargetCallback = null; 
 
 function showNoiseScreen(callback) {
     currentState = 'IN_NOISE_SCREEN';
-    noiseTargetCallback = callback; // Запам'ятовуємо функцію потрібної локації
+    noiseTargetCallback = callback; 
+    
     const noise = document.getElementById('noise-screen');
-    noise.style.display = 'flex';
+    const noiseSound = document.getElementById('sound-noise'); // Шукаємо наш звук
+    
+    // Скидаємо звук на початок перед кожним запуском
+    if (noiseSound) {
+        noiseSound.currentTime = 0; 
+        noiseSound.volume = 0.5; // Гучність (можеш зробити 1.0, якщо хочеш голосніше)
+    }
+    
+    noise.style.display = 'block';
+    
     setTimeout(() => {
-        noise.style.opacity = '1';
-    }, 50);
-}
-
-// Клік по екрану шуму - перехід до локації
-const noiseScreen = document.getElementById('noise-screen');
-if (noiseScreen) {
-    noiseScreen.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (currentState === 'IN_NOISE_SCREEN') {
-            noiseScreen.style.opacity = '0';
+        noise.style.opacity = '1'; // Шум з'являється
+        
+        // ВМИКАЄМО ЗВУК РАЗОМ ІЗ КАРТИНКОЮ
+        if (noiseSound) noiseSound.play().catch(e => console.log(e));
+        
+        // Тримаємо шум 1.2 секунди на екрані, потім ховаємо
+        setTimeout(() => {
+            noise.style.opacity = '0';
+            
+            // РІЗКО ВИМИКАЄМО ЗВУК
+            if (noiseSound) noiseSound.pause();
+            
             setTimeout(() => {
-                noiseScreen.style.display = 'none';
-                // Викликаємо функцію локації, яку ми запам'ятали
-                if (noiseTargetCallback) noiseTargetCallback();
-            }, 300);
-        }
-    });
+                noise.style.display = 'none';
+                if (noiseTargetCallback) noiseTargetCallback(); // Відкриваємо локацію
+            }, 300); // Чекаємо поки згасне прозорість
+            
+        }, 1200); // ЧАС ШУМУ
+        
+    }, 50);
 }
 
 // =========================================================
@@ -923,6 +969,7 @@ if (autumnHauptstadtBtn) {
 
 // ================== GEBRECHEN ==================
 function triggerGebrechenSlide() {
+    switchMusic('music-fears', 0.5);
     currentState = 'IN_GEBRECHEN_SLIDE';
     const sGebrechen = document.getElementById('slide-gebrechen');
     sGebrechen.style.display = 'flex';
@@ -1014,6 +1061,10 @@ function backToMap(currentSlideId) {
             return; // Зупиняємо звичайне повернення на карту і запускаємо фінал
         }
         // ========================
+        
+        // --- ВМИКАЄМО МУЗИКУ КАРТИ (part1 / einleitung) ---
+        switchMusic('music-map', 0.4);
+        // --------------------------------------------------
         
         // Показуємо глобальну карту
         const mapSlide = document.getElementById('slide-8');
@@ -1246,6 +1297,7 @@ function isGameFullyCompleted() {
 
 function triggerEndingSequence() {
     currentState = 'ENDING_SEQUENCE';
+    switchMusic('music-final', 0.6);
     
     // 1. Вимикаємо старий червоний екран
     const redScreen = document.getElementById('red-screen');
@@ -1329,3 +1381,15 @@ function transitionToEndingSlide(oldSlideId, newSlideId, frSpans, deSpans, nextC
 function playSlide17() { transitionToEndingSlide('slide-16', 'slide-17', spansSlide17Fr, spansSlide17De, playSlide18); }
 function playSlide18() { transitionToEndingSlide('slide-17', 'slide-18', spansSlide18Fr, spansSlide18De, playSlide19); }
 function playSlide19() { transitionToEndingSlide('slide-18', 'slide-19', spansSlide19Fr, spansSlide19De, null); }
+
+// =========================================================
+// --- ЗАХИСТ ВІД ВИПАДКОВОГО ПЕРЕЗАВАНТАЖЕННЯ ---
+// =========================================================
+window.addEventListener('beforeunload', function (e) {
+    // Показуємо попередження тільки якщо гравець вже зайшов у гру (пройшов перший екран), 
+    // але ще не дійшов до фінальних титрів
+    if (currentState !== 'START' && currentState !== 'ENDING_SEQUENCE') {
+        e.preventDefault();
+        e.returnValue = ''; // Сучасні браузери самі покажуть стандартне попередження
+    }
+});
