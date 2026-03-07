@@ -235,7 +235,11 @@ document.body.addEventListener('click', () =>  {
     }
     else if (currentState === 'READY_FOR_MAP') {
         currentState = 'TRANSITIONING_MAP';
-        switchMusic('music-map', 0.4);
+        
+        // --- НОВЕ: ВМИКАЄМО ТИШУ НА КАРТІ ---
+        switchMusic(null); 
+        // ------------------------------------
+        
         const slide8 = document.getElementById('slide-8');
         slide8.style.display = 'flex';
         setTimeout(() => {
@@ -250,8 +254,8 @@ document.body.addEventListener('click', () =>  {
                 const arrowLeft = document.getElementById('prev-arrow-gebrechen');
                 if (arrowLeft) arrowLeft.classList.add('revealed');
                 
-                currentState = 'WAITING_FOR_SIDE_SLIDES'; // Новий стан! Чекаємо, поки юзер подивиться боки
-            }, 1000);
+                currentState = 'WAITING_FOR_SIDE_SLIDES'; 
+            }, 400);
         }, 50);
     }
 });
@@ -263,7 +267,7 @@ document.body.addEventListener('click', () =>  {
 document.getElementById('cp-3').addEventListener('click', (e) => {
     e.stopPropagation();
     if (currentState === 'MAP_INTERACTIVE') {
-        switchMusic('music-regions', 0.4);
+        switchMusic('music-map', 0.4);
         currentState = 'IN_WINTER_REGION';
         const s9 = document.getElementById('slide-9');
         s9.style.display = 'flex';
@@ -280,10 +284,10 @@ document.getElementById('cp-3').addEventListener('click', (e) => {
                             
                             // Кнопка загоряється тільки після останньої точки
                             setTimeout(() => activateBackButton('slide-9'), points.length * 200);
-                        }, 1000);
+                        }, 400);
                     });
                 });
-            }, 1000);
+            }, 400);
         }, 50);
     }
 });
@@ -292,7 +296,7 @@ document.getElementById('cp-3').addEventListener('click', (e) => {
 document.getElementById('cp-2').addEventListener('click', (e) => {
     e.stopPropagation();
     if (currentState === 'MAP_INTERACTIVE') {
-        switchMusic('music-regions', 0.4);
+        switchMusic('music-map', 0.4);
         currentState = 'IN_AUTUMN_REGION';
         const s10 = document.getElementById('slide-10');
         s10.style.display = 'flex';
@@ -309,10 +313,10 @@ document.getElementById('cp-2').addEventListener('click', (e) => {
                             
                             // Кнопка загоряється тільки після останньої точки
                             setTimeout(() => activateBackButton('slide-10'), points.length * 200);
-                        }, 1000);
+                        }, 400);
                     });
                 });
-            }, 1000);
+            }, 400);
         }, 50);
     }
 });
@@ -321,7 +325,7 @@ document.getElementById('cp-2').addEventListener('click', (e) => {
 document.getElementById('cp-1').addEventListener('click', (e) => {
     e.stopPropagation();
     if (currentState === 'MAP_INTERACTIVE') {
-        switchMusic('music-regions', 0.4);
+        switchMusic('music-map', 0.4);
         currentState = 'IN_SUMMER_REGION';
         const s11 = document.getElementById('slide-11');
         s11.style.display = 'flex';
@@ -338,10 +342,10 @@ document.getElementById('cp-1').addEventListener('click', (e) => {
                             
                             // Кнопка загоряється тільки після останньої точки
                             setTimeout(() => activateBackButton('slide-11'), points.length * 200);
-                        }, 1000);
+                        }, 400);
                     });
                 });
-            }, 1000);
+            }, 400);
         }, 50);
     }
 });
@@ -350,7 +354,7 @@ document.getElementById('cp-1').addEventListener('click', (e) => {
 document.getElementById('cp-5').addEventListener('click', (e) => {
     e.stopPropagation();
     if (currentState === 'MAP_INTERACTIVE') {
-        switchMusic('music-regions', 0.4);
+        switchMusic('music-map', 0.4);
         currentState = 'IN_SPRING_REGION';
         const s12 = document.getElementById('slide-12');
         s12.style.display = 'flex';
@@ -367,10 +371,10 @@ document.getElementById('cp-5').addEventListener('click', (e) => {
                             
                             // Кнопка загоряється тільки після останньої точки
                             setTimeout(() => activateBackButton('slide-12'), points.length * 200);
-                        }, 1000);
+                        }, 400);
                     });
                 });
-            }, 1000);
+            }, 400);
         }, 50);
     }
 });
@@ -379,7 +383,7 @@ document.getElementById('cp-5').addEventListener('click', (e) => {
 document.getElementById('cp-4').addEventListener('click', (e) => {
     e.stopPropagation();
     if (currentState === 'MAP_INTERACTIVE') {
-        switchMusic('music-regions', 0.4);
+        switchMusic('music-map', 0.4);
         currentState = 'IN_AUTONOM_REGION';
         const s13 = document.getElementById('slide-13');
         s13.style.display = 'flex';
@@ -396,10 +400,10 @@ document.getElementById('cp-4').addEventListener('click', (e) => {
                             
                             // Кнопка загоряється тільки після останньої точки
                             setTimeout(() => activateBackButton('slide-13'), points.length * 200);
-                        }, 1000);
+                        }, 400);
                     });
                 });
-            }, 1000);
+            }, 400);
         }, 50);
     }
 });
@@ -459,7 +463,7 @@ function triggerAmygdalaSlide() {
                 // Якщо вже були - пульс не потрібен, відразу перевіряємо чи є НОВІ страхи
                 setTimeout(() => {
                     showErworbene('fears', 'erworbene-fears-section', 'erworbene-fears-list');
-                }, 1000);
+                }, 400);
             }
         }, 50);
     }, 50);
@@ -501,12 +505,12 @@ function handleAmygdalaPulseClick() {
                                     // Якщо є — почнеться друк нових, і кнопка увімкнеться в кінці
                                     setTimeout(() => {
                                         showErworbene('fears', 'erworbene-fears-section', 'erworbene-fears-list');
-                                    }, 1000); 
+                                    }, 400); 
                                 }
                                 
                             });
                         });
-                    }, 1000);
+                    }, 400);
                 });
             });
         }, 600);
@@ -570,7 +574,7 @@ function triggerZentrumSlide() {
                         activateBackButton('slide-zentrum');
                     });
                 });
-            }, 1000); 
+            }, 400); 
         }, 50);
     }, 50);
 }
@@ -606,7 +610,7 @@ function triggerDeltaSlide() {
                         activateBackButton('slide-delta');
                     });
                 });
-            }, 1000); 
+            }, 400); 
         }, 50);
     }, 50);
 }
@@ -642,7 +646,7 @@ function triggerArkateionSlide() {
                         activateBackButton('slide-arkateion');
                     });
                 });
-            }, 1000); 
+            }, 400); 
         }, 50);
     }, 50);
 }
@@ -678,7 +682,7 @@ function triggerQuartierSlide() {
                         activateBackButton('slide-quartier');
                     });
                 });
-            }, 1000); 
+            }, 400); 
         }, 50);
     }, 50);
 }
@@ -714,7 +718,7 @@ function triggerKurilenSlide() {
                         activateBackButton('slide-kurilen');
                     });
                 });
-            }, 1000); 
+            }, 400); 
         }, 50);
     }, 50);
 }
@@ -750,7 +754,7 @@ function triggerVolkerkreuzerSlide() {
                         activateBackButton('slide-volkerkreuzer');
                     });
                 });
-            }, 1000); 
+            }, 400); 
         }, 50);
     }, 50);
 }
@@ -827,7 +831,7 @@ function triggerSummerHauptstadtSlide() {
                         activateBackButton('slide-summer-hauptstadt');
                     });
                 });
-            }, 1000); 
+            }, 400); 
         }, 50);
     }, 50);
 }
@@ -849,7 +853,7 @@ function backToSummer(currentSlideId) {
             summerSlide.classList.add('visible');
             currentState = 'SUMMER_REGION_POINTS_SHOWN'; 
         }, 50);
-    }, 1000);
+    }, 400);
 }
 
 // =========================================================
@@ -884,7 +888,7 @@ function triggerSummerGeneralstabSlide() {
                         activateBackButton('slide-summer-generalstab');
                     });
                 });
-            }, 1000); 
+            }, 400); 
         }, 50);
     }, 50);
 }
@@ -921,7 +925,7 @@ function triggerWaffenfabrikSlide() {
                         activateBackButton('slide-autonom-waffenfabrik');
                     });
                 });
-            }, 1000); 
+            }, 400); 
         }, 50);
     }, 50);
 }
@@ -943,7 +947,7 @@ function backToAutonom(currentSlideId) {
             autonomSlide.classList.add('visible');
             currentState = 'AUTONOM_REGION_POINTS_SHOWN'; 
         }, 50);
-    }, 1000);
+    }, 400);
 }
 
 // =========================================================
@@ -987,7 +991,7 @@ function triggerGebrechenSlide() {
                 // Якщо вже були - автоматично перевіряємо нові хвороби
                 setTimeout(() => {
                     showErworbene('gebrechen', 'erworbene-gebrechen-section', 'erworbene-gebrechen-list');
-                }, 1000);
+                }, 400);
             }
         }, 50);
     }, 50);
@@ -1018,7 +1022,7 @@ function handleGebrechenPulseClick() {
                     // Якщо є — почнеться друк нових, і кнопка увімкнеться в кінці
                     setTimeout(() => {
                         showErworbene('gebrechen', 'erworbene-gebrechen-section', 'erworbene-gebrechen-list');
-                    }, 1000); 
+                    }, 400); 
                 }
                 
             });
@@ -1042,98 +1046,104 @@ function resetBackButton(slideId) {
 // ФУНКЦІЇ ДЛЯ КНОПОК "НАЗАД"
 // =========================================================
 
-// Повернення на глобальну карту світу (Слайд 8)
-function backToMap(currentSlideId) {
-    const currentSlide = document.getElementById(currentSlideId);
+// Універсальний помічник для миттєвого зникнення кнопки і швидкого переходу
+function hideSlideSnappy(slideId, callback) {
+    const currentSlide = document.getElementById(slideId);
     if (!currentSlide) return;
     
-    // Плавно ховаємо поточний слайд
+    // МИТТЄВО прибираємо кнопку, щоб вона не "сіріла" перед очима
+    const btn = currentSlide.querySelector('.back-btn');
+    if (btn) btn.style.display = 'none';
+
     currentSlide.classList.remove('visible');
     
+    // Перехід тепер триває 300мс (0.3с) замість 400мс
     setTimeout(() => {
         currentSlide.style.display = 'none';
-        resetBackButton(currentSlideId); 
-        
-        // === МАГІЯ ФІНАЛУ ТУТ ===
+        if (btn) btn.style.display = 'block'; // Повертаємо для наступного разу
+        resetBackButton(slideId); 
+        if(callback) callback();
+    }, 300); 
+}
+
+// Повернення на глобальну карту світу (Слайд 8)
+function backToMap(currentSlideId) {
+    hideSlideSnappy(currentSlideId, () => {
         if (isGameFullyCompleted() && !isEndingTriggered) {
             isEndingTriggered = true;
             triggerEndingSequence();
-            return; // Зупиняємо звичайне повернення на карту і запускаємо фінал
+            return;
         }
-        // ========================
         
-        // --- ВМИКАЄМО МУЗИКУ КАРТИ (part1 / einleitung) ---
-        switchMusic('music-map', 0.4);
-        // --------------------------------------------------
+        // Вмикаємо музику карти
+        switchMusic('music-map', 0.4); 
         
-        // Показуємо глобальну карту
         const mapSlide = document.getElementById('slide-8');
         mapSlide.style.display = 'flex';
         
         setTimeout(() => {
             mapSlide.classList.add('visible');
-            
-            // Якщо бачили обидва слайди, але точки ще не з'являлися:
             if (hasSeenAmygdala && hasSeenGebrechen && !mapPointsRevealed) {
                 mapPointsRevealed = true;
-                
                 document.querySelectorAll('.map-checkpoint').forEach((cp, idx) => {
                     setTimeout(() => cp.classList.add('revealed'), idx * 200);
                 });
-                
-                setTimeout(() => { currentState = 'MAP_INTERACTIVE'; }, 1500);
-            } 
-            else if (mapPointsRevealed) {
+                setTimeout(() => { currentState = 'MAP_INTERACTIVE'; }, 400);
+            } else if (mapPointsRevealed) {
                 currentState = 'MAP_INTERACTIVE'; 
-            } 
-            else {
+            } else {
                 currentState = 'WAITING_FOR_SIDE_SLIDES';
             }
-            
         }, 50);
-    }, 1000); // 1 секунда на згасання
+    });
 }
 
 // Повернення на карту Вічної Зими (Слайд 9)
 function backToWinter(currentSlideId) {
-    const currentSlide = document.getElementById(currentSlideId);
-    if (!currentSlide) return;
-    
-    // Плавно ховаємо поточну підлокацію
-    currentSlide.classList.remove('visible');
-    
-    setTimeout(() => {
-        currentSlide.style.display = 'none';
-        
-        // Показуємо Зиму
+    hideSlideSnappy(currentSlideId, () => {
         const winterSlide = document.getElementById('slide-9');
         winterSlide.style.display = 'flex';
-        
         setTimeout(() => {
             winterSlide.classList.add('visible');
-            currentState = 'WINTER_REGION_POINTS_SHOWN'; // Точки Зими вже можна клікати
+            currentState = 'WINTER_REGION_POINTS_SHOWN';
         }, 50);
-    }, 1000);
+    });
 }
 
 // Повернення на карту Вічної Весни (Слайд 12)
 function backToSpring(currentSlideId) {
-    const currentSlide = document.getElementById(currentSlideId);
-    if (!currentSlide) return;
-    
-    currentSlide.classList.remove('visible');
-    
-    setTimeout(() => {
-        currentSlide.style.display = 'none';
-        
+    hideSlideSnappy(currentSlideId, () => {
         const springSlide = document.getElementById('slide-12');
         springSlide.style.display = 'flex';
-        
         setTimeout(() => {
             springSlide.classList.add('visible');
             currentState = 'SPRING_REGION_POINTS_SHOWN'; 
         }, 50);
-    }, 1000);
+    });
+}
+
+// Повернення на карту Вічного Літа (Слайд 11)
+function backToSummer(currentSlideId) {
+    hideSlideSnappy(currentSlideId, () => {
+        const summerSlide = document.getElementById('slide-11');
+        summerSlide.style.display = 'flex';
+        setTimeout(() => {
+            summerSlide.classList.add('visible');
+            currentState = 'SUMMER_REGION_POINTS_SHOWN'; 
+        }, 50);
+    });
+}
+
+// Повернення на карту Напівавтономної Зони (Слайд 13)
+function backToAutonom(currentSlideId) {
+    hideSlideSnappy(currentSlideId, () => {
+        const autonomSlide = document.getElementById('slide-13');
+        autonomSlide.style.display = 'flex';
+        setTimeout(() => {
+            autonomSlide.classList.add('visible');
+            currentState = 'AUTONOM_REGION_POINTS_SHOWN'; 
+        }, 50);
+    });
 }
 
 // =========================================================
@@ -1374,7 +1384,7 @@ function transitionToEndingSlide(oldSlideId, newSlideId, frSpans, deSpans, nextC
                 });
             }
         }, 50);
-    }, 1000); 
+    }, 400); 
 }
 
 // Ланцюжок викликів наступних слайдів
