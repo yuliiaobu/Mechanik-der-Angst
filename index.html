@@ -12,8 +12,11 @@
    <audio id="music-intro" loop>
         <source src="./sound/part1.mp3" type="audio/mpeg">
     </audio>
-    <audio id="music-angst" >
-        <source src="./sound/angst.mp3" type="audio/mpeg">
+    <audio id="sound-peur">
+        <source src="./sound/peur.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound-animation">
+        <source src="./sound/animation.mp3" type="audio/mpeg">
     </audio>
     <audio id="music-map" loop>
         <source src="./sound/einleitung.mp3" type="audio/mpeg">
@@ -75,12 +78,12 @@
 
         <div id="next-arrow-amygdala" class="nav-arrow">
             ⇨
-            <div class="arrow-label">Amygdala</div> <div class="notification-badge" id="badge-amygdala" style="display: none;"></div>
+            <div class="arrow-label">Meine<br>Ängste</div> <div class="notification-badge" id="badge-amygdala" style="display: none;"></div>
         </div>
 
         <div id="prev-arrow-gebrechen" class="nav-arrow left-arrow">
             ⇦
-            <div class="arrow-label">Gebrechen</div> <div class="notification-badge left-badge" id="badge-gebrechen" style="display: none;"></div>
+            <div class="arrow-label">Meine<br>Gebrechen</div> <div class="notification-badge left-badge" id="badge-gebrechen" style="display: none;"></div>
         </div>
         
     </div>
@@ -412,11 +415,7 @@
 
             <div id="amygdala-pulse-trigger" style="display: none;" onclick="event.stopPropagation(); handleAmygdalaPulseClick();">
                 <img src="./pictures/amygdala_piece.png" class="pulse-icon" alt="Pulse Indicator">
-            </div>
-
-            <div id="amygdala-pulse-trigger" style="display: none;" onclick="event.stopPropagation(); handleAmygdalaPulseClick();">
-                <img src="./pictures/amygdala_piece.png" class="pulse-icon" alt="Pulse Indicator">
-                <div class="red-click-hint">Hier klicken</div> 
+                <div class="red-click-hint" id="amygdala-hint" style="display: none;">Hier klicken</div> 
             </div>
 
             <div id="fears-text-content" style="opacity: 0;">
@@ -449,14 +448,10 @@ Angst vor dem Fallen</div>
             <div class="back-btn top-1" onclick="event.stopPropagation(); backToMap('slide-gebrechen')">Weltkarte ⟶</div>
             
             <img src="./pictures/gebrechen.jpg" class="gebrechen-bg-img" alt="Gebrechen">
-
-            <div id="gebrechen-pulse-trigger" style="display: none;" onclick="event.stopPropagation(); handleGebrechenPulseClick();">
-                <img src="./pictures/herz.png" class="pulse-icon" alt="Pulse Indicator">
-            </div>
             
-            <div id="gebrechen-pulse-trigger" style="display: none;" onclick="event.stopPropagation(); handleGebrechenPulseClick();">
+           <div id="gebrechen-pulse-trigger" style="display: none;" onclick="event.stopPropagation(); handleGebrechenPulseClick();">
                 <img src="./pictures/herz.png" class="pulse-icon" alt="Pulse Indicator">
-                <div class="red-click-hint">Hier klicken</div> 
+                <div class="red-click-hint" id="gebrechen-hint" style="display: none;">Hier klicken</div> 
             </div>
 
             <div id="gebrechen-text-content" style="opacity: 0;">

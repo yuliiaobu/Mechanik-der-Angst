@@ -942,12 +942,15 @@ img {
 /* Підписи під стрілками */
 .arrow-label {
     position: absolute;
-    bottom: -35px; /* Відступ вниз від стрілки */
-    font-size: 1.2cqw;
+    top: -2.8cqw; /* Переносимо напис НАД стрілочкою */
+    left: 50%; /* Зсуваємо на середину... */
+    transform: translateX(-50%); /* ...і ідеально центруємо відносно самої себе */
+    font-size: 1cqw;
     color: #000;
     font-weight: 700;
-    white-space: nowrap;
-    opacity: 0.5; /* Напівпрозорі, щоб не сильно кидалися в очі */
+    text-align: center; /* Текст у два рядки вирівнюється по центру */
+    line-height: 1.1;
+    opacity: 0.5; 
     transition: opacity 0.3s ease;
 }
 

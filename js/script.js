@@ -194,18 +194,23 @@ document.body.addEventListener('click', () =>  {
         document.getElementById('peur-text').classList.add('revealed');
         generatedAngst[0].classList.add('revealed');
         
-        switchMusic('music-angst', 0.8); // <-- ВМИКАЄМО angst.mp3 (Паніка)
+        // --- НОВЕ: ВМИКАЄМО РІЗКИЙ УДАР "PEUR" ---
+        switchMusic('sound-peur', 0.8); 
         
         currentState = 'READY_FOR_SLIDE_7';
     }
     else if (currentState === 'READY_FOR_SLIDE_7') {
         currentState = 'PANIC_MODE';
+        
+        // --- НОВЕ: ВМИКАЄМО НАРОСТАЮЧИЙ ЗВУК АНІМАЦІЇ ---
+        switchMusic('sound-animation', 0.7);
+
         let i = 1;
         function flashAngst() {
             if (i < generatedAngst.length) {
                 generatedAngst[i].classList.add('revealed');
                 i++;
-                setTimeout(flashAngst, Math.random() * 100 + 50);
+                setTimeout(flashAngst, Math.random() * 80 + 30); // Зробили трохи швидше (було 100+50)
             } else {
                 startAngstFlood();
             }
@@ -213,7 +218,8 @@ document.body.addEventListener('click', () =>  {
         function startAngstFlood() {
             let count = 0;
             function spawn() {
-                if (count < 150) {
+                // БУЛО 150 слів, СТАЛО 60 (менше і коротше)
+                if (count < 60) { 
                     const el = document.createElement('div');
                     el.className = 'random-angst';
                     el.innerText = 'ANGST';
@@ -223,7 +229,9 @@ document.body.addEventListener('click', () =>  {
                     el.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
                     document.getElementById('angst-container').appendChild(el);
                     count++;
-                    setTimeout(spawn, Math.max(10, 80 - (count * 0.5)));
+                    
+                    // Прискорили час між появою слів
+                    setTimeout(spawn, Math.max(15, 60 - count)); 
                 } else {
                     document.getElementById('red-screen').style.opacity = '1';
                     currentState = 'READY_FOR_MAP';
@@ -235,10 +243,8 @@ document.body.addEventListener('click', () =>  {
     }
     else if (currentState === 'READY_FOR_MAP') {
         currentState = 'TRANSITIONING_MAP';
-        
-        // --- НОВЕ: ВМИКАЄМО ТИШУ НА КАРТІ ---
-        switchMusic(null); 
-        // ------------------------------------
+      
+        switchMusic('music-fears', 0.5); 
         
         const slide8 = document.getElementById('slide-8');
         slide8.style.display = 'flex';
@@ -455,9 +461,21 @@ function triggerAmygdalaSlide() {
             document.querySelector('.amygdala-bg-img').classList.add('revealed');
             
             // Якщо ми тут вперше - показуємо пульс
+            // Якщо ми тут вперше - показуємо пульс
             if (!baseFearsRevealed) {
                 setTimeout(() => {
                     document.getElementById('amygdala-pulse-trigger').style.display = 'block';
+                    
+                    // --- НОВЕ: Запускаємо таймер на 4 секунди для підказки ---
+                    setTimeout(() => {
+                        // Якщо юзер за 4 сек так і не клікнув - показуємо напис
+                        if (!baseFearsRevealed) {
+                            const hint = document.getElementById('amygdala-hint');
+                            if (hint) hint.style.display = 'block';
+                        }
+                    }, 4000);
+                    // --------------------------------------------------------
+                    
                 }, 2000); 
             } else {
                 // Якщо вже були - пульс не потрібен, відразу перевіряємо чи є НОВІ страхи
@@ -476,6 +494,11 @@ function handleAmygdalaPulseClick() {
         
         const pulseIcon = document.querySelector('#amygdala-pulse-trigger .pulse-icon');
         if (pulseIcon) pulseIcon.style.animation = 'none';
+        
+        // --- НОВЕ: Ховаємо підказку, бо юзер вже клікнув ---
+        const hint = document.getElementById('amygdala-hint');
+        if (hint) hint.style.display = 'none';
+        // ---------------------------------------------------
         
         const pointerLine = document.querySelector('.amygdala-pointer-line');
         if (pointerLine) pointerLine.classList.add('drawn');
@@ -1005,6 +1028,11 @@ function handleGebrechenPulseClick() {
         const pulseIcon = document.querySelector('#gebrechen-pulse-trigger .pulse-icon');
         if (pulseIcon) pulseIcon.style.animation = 'none';
         
+        // --- НОВЕ: Ховаємо підказку, бо юзер вже клікнув ---
+        const hint = document.getElementById('gebrechen-hint');
+        if (hint) hint.style.display = 'none';
+        // ---------------------------------------------------
+        
         const content = document.getElementById('gebrechen-text-content');
         if (content) content.style.opacity = '1';
         
@@ -1074,9 +1102,8 @@ function backToMap(currentSlideId) {
             triggerEndingSequence();
             return;
         }
-        
-        // Вмикаємо музику карти
-        switchMusic('music-map', 0.4); 
+       
+        switchMusic('music-fears', 0.5); 
         
         const mapSlide = document.getElementById('slide-8');
         mapSlide.style.display = 'flex';
