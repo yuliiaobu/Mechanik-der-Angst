@@ -75,8 +75,8 @@ const spansSlide19Fr = prepareText(document.getElementById('fr-line-19'));
 const spansSlide19De = prepareText(document.getElementById('de-line-19'));
 
 // --- 3. СТАН ДОДАТКУ ---
-//let currentState = 'START'; 
-let currentState = 'READY_FOR_MAP'; // Зміни на START для повної презентації
+let currentState = 'START'; 
+//let currentState = 'READY_FOR_MAP'; // Зміни на START для повної презентації
 const typingSpeed = 20;
 
 let hasSeenAmygdala = false;
