@@ -72,14 +72,15 @@
             <div class="map-checkpoint" id="cp-4" style="top: 73%; left: 51.0%;"></div>
             <div class="map-checkpoint" id="cp-5" style="top: 74%; left: 67.7%;"></div>
         </div> 
+
         <div id="next-arrow-amygdala" class="nav-arrow">
             ⇨
-            <div class="notification-badge" id="badge-amygdala" style="display: none;"></div>
+            <div class="arrow-label">Amygdala</div> <div class="notification-badge" id="badge-amygdala" style="display: none;"></div>
         </div>
 
         <div id="prev-arrow-gebrechen" class="nav-arrow left-arrow">
             ⇦
-            <div class="notification-badge left-badge" id="badge-gebrechen" style="display: none;"></div>
+            <div class="arrow-label">Gebrechen</div> <div class="notification-badge left-badge" id="badge-gebrechen" style="display: none;"></div>
         </div>
         
     </div>
@@ -263,7 +264,7 @@
 
             <div class="summer-hauptstadt-desc-container">
                 <p class="summer-hauptstadt-desc" id="summer-hauptstadt-desc">
-                    – flächenmäßig sehr groß und ursprünglich auf den Tourismus ausgerichtet. Infolge der Bombardierungen durch den „Ewigen Herbst“ wurde sie zu fünfunddreißig Prozent zerstört und hat beinahe alle ausländischen Kunden im Dienstleistungssektor verloren. Die Stadt befindet sich in einer tiefen Wirtschaftskrise.
+                    – flächenmäßig sehr groß und ursprünglich auf den Tourismus ausgerichtet. Infolge der Bombardierungen durch Ewigen Herbst wurde sie zu fünfunddreißig Prozent zerstört und hat beinahe alle ausländischen Kunden im Dienstleistungssektor verloren. Die Stadt befindet sich in einer tiefen Wirtschaftskrise.
                 </p>
             </div>
             
@@ -413,6 +414,11 @@
                 <img src="./pictures/amygdala_piece.png" class="pulse-icon" alt="Pulse Indicator">
             </div>
 
+            <div id="amygdala-pulse-trigger" style="display: none;" onclick="event.stopPropagation(); handleAmygdalaPulseClick();">
+                <img src="./pictures/amygdala_piece.png" class="pulse-icon" alt="Pulse Indicator">
+                <div class="red-click-hint">Hier klicken</div> 
+            </div>
+
             <div id="fears-text-content" style="opacity: 0;">
                 <h1 class="amygdala-main-title" id="geborene-title">Geborene Ängste</h1>
                 <div class="fears-list" id="geborene-list">Angst vor lauten Geräuschen
@@ -446,6 +452,11 @@ Angst vor dem Fallen</div>
 
             <div id="gebrechen-pulse-trigger" style="display: none;" onclick="event.stopPropagation(); handleGebrechenPulseClick();">
                 <img src="./pictures/herz.png" class="pulse-icon" alt="Pulse Indicator">
+            </div>
+            
+            <div id="gebrechen-pulse-trigger" style="display: none;" onclick="event.stopPropagation(); handleGebrechenPulseClick();">
+                <img src="./pictures/herz.png" class="pulse-icon" alt="Pulse Indicator">
+                <div class="red-click-hint">Hier klicken</div> 
             </div>
 
             <div id="gebrechen-text-content" style="opacity: 0;">

@@ -939,6 +939,23 @@ img {
     color: #fff;
 }
 
+/* Підписи під стрілками */
+.arrow-label {
+    position: absolute;
+    bottom: -35px; /* Відступ вниз від стрілки */
+    font-size: 1.2cqw;
+    color: #000;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0.5; /* Напівпрозорі, щоб не сильно кидалися в очі */
+    transition: opacity 0.3s ease;
+}
+
+/* Коли наводиш на стрілку - підпис стає яскравим */
+.nav-arrow:hover .arrow-label {
+    opacity: 1;
+}
+
 /* Модифікатор для стрілочки, що веде вліво */
 .nav-arrow.left-arrow {
     right: auto; /* Скидаємо прив'язку до правого краю */
@@ -1861,4 +1878,26 @@ div[id^="slide-"] {
 /* Картинки всередині локацій з'являються за 0.4с замість 1.5с */
 img {
     transition: opacity 0.4s ease-in-out !important;
+}
+
+/* ========================================= */
+/* --- ПІДКАЗКИ "НАТИСНИ НА ЧЕРВОНЕ" --- */
+/* ========================================= */
+.red-click-hint {
+    position: absolute;
+    top: 110%; /* Одразу під іконкою серця/мозку */
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'din-2014', sans-serif;
+    font-size: 1cqw;
+    color: #bf3030; /* Червоний колір */
+    font-weight: 800;
+    white-space: nowrap;
+    pointer-events: none; /* Щоб не заважав клікати на саму іконку */
+    animation: textPulse 2s infinite ease-in-out;
+}
+
+@keyframes textPulse {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
 }

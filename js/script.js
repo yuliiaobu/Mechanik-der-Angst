@@ -75,8 +75,8 @@ const spansSlide19Fr = prepareText(document.getElementById('fr-line-19'));
 const spansSlide19De = prepareText(document.getElementById('de-line-19'));
 
 // --- 3. СТАН ДОДАТКУ ---
-let currentState = 'START'; 
-//let currentState = 'READY_FOR_MAP'; // Зміни на START для повної презентації
+//let currentState = 'START'; 
+let currentState = 'READY_FOR_MAP'; // Зміни на START для повної презентації
 const typingSpeed = 20;
 
 let hasSeenAmygdala = false;
@@ -1309,9 +1309,12 @@ function triggerEndingSequence() {
     currentState = 'ENDING_SEQUENCE';
     switchMusic('music-final', 0.6);
     
-    // 1. Вимикаємо старий червоний екран
+    // 1. Вимикаємо старий червоний екран ТА слова ANGST
     const redScreen = document.getElementById('red-screen');
     if (redScreen) redScreen.style.display = 'none';
+    
+    const angstSlide = document.getElementById('slide-6-7'); // <-- ДОДАНО: Знаходимо слайд зі страхом
+    if (angstSlide) angstSlide.style.display = 'none';       // <-- ДОДАНО: Назавжди ховаємо його
     
     // 2. Гарантовано ховаємо карту
     const mapSlide = document.getElementById('slide-8');
@@ -1329,7 +1332,7 @@ function triggerEndingSequence() {
             slide.style.left = '0';
             slide.style.width = '100vw'; 
             slide.style.height = '100vh';
-            slide.style.boxSizing = 'border-box'; // <--- ОСЬ ЦЕ вирівнює текст ідеально по центру
+            slide.style.boxSizing = 'border-box'; 
             slide.style.justifyContent = 'center';
             slide.style.alignItems = 'center';
             slide.style.backgroundColor = '#000000'; 

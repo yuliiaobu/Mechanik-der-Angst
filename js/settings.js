@@ -76,7 +76,7 @@ const acquiredData = {
         gebrechen: ["Myopie (Kurzsichtigkeit)", "Dysbiose (Mikrobiom-Verarmung)"]
     },
     'slide-summer-hauptstadt': { 
-        fears: ["Angst vor dem Krieg", "Angst vor lauten Geräuschen"],
+        fears: ["Angst vor dem Krieg", "Angst vor dem Feuer"],
         gebrechen: ["Bruxismus", "Stressinduziertes Ulkus (Magengeschwür)"]
     },
     'slide-summer-generalstab': { 
