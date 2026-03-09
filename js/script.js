@@ -6,6 +6,37 @@
 createScatteredWords(); // Викликаємо генерацію з utils.js
 generateAngstWords();   // Викликаємо генерацію з utils.js
 
+// =========================================================
+// ПРЕЛОАДЕР: ЧЕКАЄМО ЗАВАНТАЖЕННЯ МУЗИКИ ПЕРЕД СТАРТОМ
+// =========================================================
+const startHint = document.getElementById('start-hint');
+const introMusic = document.getElementById('music-intro');
+
+// 1. Блокуємо кліки по всьому сайту і пишемо "Завантаження"
+document.body.style.pointerEvents = 'none';
+if (startHint) {
+    startHint.innerText = "Audio wird geladen... Bitte warten"; // "Аудіо завантажується... Будь ласка, зачекайте"
+}
+
+// 2. Коли браузер каже "я завантажив достатньо, щоб грати без пауз"
+if (introMusic) {
+    introMusic.addEventListener('canplaythrough', () => {
+        // Розблоковуємо кліки і міняємо текст
+        document.body.style.pointerEvents = 'auto';
+        if (startHint) {
+            startHint.innerText = "Klicken, um zu beginnen"; // "Клікніть, щоб почати"
+        }
+    });
+
+    // Підстраховка: якщо браузер затупив, все одно розблоковуємо через 4 секунди
+    setTimeout(() => {
+        document.body.style.pointerEvents = 'auto';
+        if (startHint && startHint.innerText.includes("geladen")) {
+             startHint.innerText = "Klicken, um zu beginnen";
+        }
+    }, 4000);
+}
+
 // --- 2. ПІДГОТОВКА ВСІХ ТЕКСТІВ ---
 const spansSlide1Fr = prepareText(document.getElementById('fr-line-1'));
 const spansSlide1De = prepareText(document.getElementById('de-line-1'));
