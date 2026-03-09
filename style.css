@@ -1947,7 +1947,9 @@ svg text {
 }
 #end-screen h1 {
     font-size: 8vw;
-    font-family: monospace;
+    font-family: 'din-2014', sans-serif; /* Твій фірмовий шрифт */
+    font-weight: 800; /* Максимально жирний (ExtraBold) */
     letter-spacing: 1vw;
-    color: #ff0000; /* або білий, як тобі більше подобається */
+    color: #bf3030; /* Я змінив колір на твій фірмовий темно-червоний, як крапки на карті. Якщо хочеш яскравий, як PEUR, поверни #ff0000 */
+    margin: 0;
 }

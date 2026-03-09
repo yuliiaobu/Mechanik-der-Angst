@@ -1423,10 +1423,16 @@ function transitionToEndingSlide(oldSlideId, newSlideId, frSpans, deSpans, nextC
                 hesitantReveal(frSpans, () => {
                     revealText(deSpans, 40, () => {
                         
-                        // --- ДОДАНО: Повільне і драматичне згасання тексту ---
+                        // --- Повільне і драматичне згасання тексту ---
                         setTimeout(() => {
                             newSlide.style.transition = 'opacity 4s ease-in-out'; // Дуже повільно
                             newSlide.style.opacity = '0'; // Текст зникає, залишається вічна темрява
+                            
+                            // ВИКЛИКАЄМО DAS ENDE: чекаємо 4 секунди (поки текст повністю згасне) і показуємо фінал
+                            if (nextCallback) {
+                                setTimeout(nextCallback, 4000); 
+                            }
+                            
                         }, 3000); // 3 секунди юзер дивиться на слова "Я боюсь", після чого вони тануть
                         
                     });
@@ -1448,16 +1454,13 @@ function playSlide17() { transitionToEndingSlide('slide-16', 'slide-17', spansSl
 function playSlide18() { transitionToEndingSlide('slide-17', 'slide-18', spansSlide18Fr, spansSlide18De, playSlide19); }
 function playSlide19() { transitionToEndingSlide('slide-18', 'slide-19', spansSlide19Fr, spansSlide19De, showEndScreen); }
 function showEndScreen() {
-    // 3 секунди паузи після останнього тексту 19-го слайду, щоб гравець його дочитав
-    setTimeout(() => {
-        const endScreen = document.getElementById('end-screen');
-        if (endScreen) {
-            endScreen.style.display = 'flex';
-            setTimeout(() => {
-                endScreen.style.opacity = '1';
-            }, 100);
-        }
-    }, 3000); 
+    const endScreen = document.getElementById('end-screen');
+    if (endScreen) {
+        endScreen.style.display = 'flex';
+        setTimeout(() => {
+            endScreen.style.opacity = '1'; // Повільно випливає червоне DAS ENDE
+        }, 50);
+    }
 }
 
 // =========================================================
