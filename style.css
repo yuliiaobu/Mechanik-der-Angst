@@ -26,6 +26,25 @@ img {
     cursor: pointer; /* Підказує юзеру, що можна клікати */
 }
 
+#start-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: 'din-2014', sans-serif;
+    font-size: 1.5vw;
+    opacity: 0.7;
+    animation: pulseHint 2s infinite;
+    pointer-events: none;
+}
+
+@keyframes pulseHint {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
+}
+
 .text-container {
     display: flex;
     flex-direction: column;
@@ -1532,16 +1551,16 @@ img {
 .volkerkreuzer-title-container {
     position: absolute;
     top: 8%;
-    left: 6.1%; 
+    left: 8%; 
     z-index: 10;
 }
 
 /* Позиція опису */
 .volkerkreuzer-desc-container {
     position: absolute;
-    top: 8%;
-    left: 33%; 
-    width: 50%; /* Обмежуємо ширину, щоб текст переносився як у SVG */
+    top: 13%;
+    left: 8%; 
+    width: 35%; /* Обмежуємо ширину, щоб текст переносився як у SVG */
     z-index: 10;
     text-align: left;
 }
@@ -1669,8 +1688,8 @@ img {
 .waffenfabrik-bg-img.revealed { opacity: 1; }
 
 /* Positionen für Titel und Text */
-.waffenfabrik-title-container { position: absolute; top: 8%; left: 39.6%; z-index: 10; }
-.waffenfabrik-desc-container { position: absolute; top: 13%; left: 39.6%; width: 25%; z-index: 10; text-align: left; }
+.waffenfabrik-title-container { position: absolute; top: 15%; left: 8%; z-index: 10; }
+.waffenfabrik-desc-container { position: absolute; top: 20%; left: 8%; width: 35%; z-index: 10; text-align: left; }
 
 .waffenfabrik-main-title {
     font-family: 'din-2014', sans-serif; font-weight: 800; font-size: 4cqw; color: #000; margin: 0; line-height: 1;
@@ -1903,4 +1922,32 @@ img {
 @keyframes textPulse {
     0%, 100% { opacity: 0.2; }
     50% { opacity: 1; }
+}
+
+/* Робимо так, щоб клік проходив КРІЗЬ текстові підписи прямо на крапки */
+svg text {
+    pointer-events: none;
+    user-select: none;
+}
+
+#end-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 3s ease-in-out;
+}
+#end-screen h1 {
+    font-size: 8vw;
+    font-family: monospace;
+    letter-spacing: 1vw;
+    color: #ff0000; /* або білий, як тобі більше подобається */
 }

@@ -76,7 +76,7 @@ const spansSlide19De = prepareText(document.getElementById('de-line-19'));
 
 // --- 3. СТАН ДОДАТКУ ---
 let currentState = 'START'; 
-//let currentState = 'READY_FOR_MAP'; // Зміни на START для повної презентації
+
 const typingSpeed = 20;
 
 let hasSeenAmygdala = false;
@@ -121,11 +121,16 @@ document.body.addEventListener('click', () =>  {
     }
     if (currentState === 'START') {
         currentState = 'TYPING_1';
+        
+        // --- НОВЕ: Ховаємо підказку після кліку ---
+        const startHint = document.getElementById('start-hint');
+        if (startHint) startHint.style.display = 'none';
+        
         document.getElementById('slide-1').classList.add('visible');
         revealText(spansSlide1Fr, typingSpeed, () => {
             revealText(spansSlide1De, typingSpeed, () => { currentState = 'READY_FOR_SLIDE_2'; });
         });
-    } 
+    }
     else if (currentState === 'READY_FOR_SLIDE_2') {
         currentState = 'TRANSITIONING_2';
         document.getElementById('slide-1').style.opacity = '0';
@@ -202,24 +207,28 @@ document.body.addEventListener('click', () =>  {
     else if (currentState === 'READY_FOR_SLIDE_7') {
         currentState = 'PANIC_MODE';
         
-        // --- НОВЕ: ВМИКАЄМО НАРОСТАЮЧИЙ ЗВУК АНІМАЦІЇ ---
+        // ВМИКАЄМО НАРОСТАЮЧИЙ ЗВУК АНІМАЦІЇ (6 секунд)
         switchMusic('sound-animation', 0.7);
 
         let i = 1;
+        // ФАЗА 1: Поява фіксованих слів (зрізали час до ~1.2 сек)
         function flashAngst() {
             if (i < generatedAngst.length) {
                 generatedAngst[i].classList.add('revealed');
                 i++;
-                setTimeout(flashAngst, Math.random() * 80 + 30); // Зробили трохи швидше (було 100+50)
+                // Було: Math.random() * 80 + 70
+                setTimeout(flashAngst, Math.random() * 60 + 60); 
             } else {
                 startAngstFlood();
             }
         }
+        
+        // ФАЗА 2: Хаотична повінь слів (зрізали час до ~3.5 сек)
         function startAngstFlood() {
             let count = 0;
             function spawn() {
-                // БУЛО 150 слів, СТАЛО 60 (менше і коротше)
-                if (count < 60) { 
+                // Зменшили кількість слів зі 120 до 105
+                if (count < 105) { 
                     const el = document.createElement('div');
                     el.className = 'random-angst';
                     el.innerText = 'ANGST';
@@ -230,17 +239,23 @@ document.body.addEventListener('click', () =>  {
                     document.getElementById('angst-container').appendChild(el);
                     count++;
                     
-                    // Прискорили час між появою слів
-                    setTimeout(spawn, Math.max(15, 60 - count)); 
+                    // Прискорили паузу: в середньому 30мс на слово
+                    setTimeout(spawn, Math.random() * 20 + 20); 
                 } else {
+                    // Фінальний акорд: екран заливається червоним
                     document.getElementById('red-screen').style.opacity = '1';
-                    currentState = 'READY_FOR_MAP';
+                    
+                    // Пауза перед переходом на карту (0.5 сек)
+                    setTimeout(() => {
+                        currentState = 'READY_FOR_MAP';
+                    }, 500);
                 }
             }
             spawn();
         }
         flashAngst();
     }
+
     else if (currentState === 'READY_FOR_MAP') {
         currentState = 'TRANSITIONING_MAP';
       
@@ -1009,6 +1024,17 @@ function triggerGebrechenSlide() {
             if (!baseGebrechenRevealed) {
                 setTimeout(() => {
                     document.getElementById('gebrechen-pulse-trigger').style.display = 'block';
+                    
+                    // --- ДОДАНО: Запускаємо таймер на 4 секунди для підказки ---
+                    setTimeout(() => {
+                        // Якщо юзер за 4 сек так і не клікнув - показуємо напис
+                        if (!baseGebrechenRevealed) {
+                            const hint = document.getElementById('gebrechen-hint');
+                            if (hint) hint.style.display = 'block';
+                        }
+                    }, 4000);
+                    // --------------------------------------------------------
+                    
                 }, 2000); 
             } else {
                 // Якщо вже були - автоматично перевіряємо нові хвороби
@@ -1420,7 +1446,19 @@ function transitionToEndingSlide(oldSlideId, newSlideId, frSpans, deSpans, nextC
 // Ланцюжок викликів наступних слайдів
 function playSlide17() { transitionToEndingSlide('slide-16', 'slide-17', spansSlide17Fr, spansSlide17De, playSlide18); }
 function playSlide18() { transitionToEndingSlide('slide-17', 'slide-18', spansSlide18Fr, spansSlide18De, playSlide19); }
-function playSlide19() { transitionToEndingSlide('slide-18', 'slide-19', spansSlide19Fr, spansSlide19De, null); }
+function playSlide19() { transitionToEndingSlide('slide-18', 'slide-19', spansSlide19Fr, spansSlide19De, showEndScreen); }
+function showEndScreen() {
+    // 3 секунди паузи після останнього тексту 19-го слайду, щоб гравець його дочитав
+    setTimeout(() => {
+        const endScreen = document.getElementById('end-screen');
+        if (endScreen) {
+            endScreen.style.display = 'flex';
+            setTimeout(() => {
+                endScreen.style.opacity = '1';
+            }, 100);
+        }
+    }, 3000); 
+}
 
 // =========================================================
 // --- ЗАХИСТ ВІД ВИПАДКОВОГО ПЕРЕЗАВАНТАЖЕННЯ ---
